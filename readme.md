@@ -1,6 +1,3 @@
-# 官方网站
-http://www.phpems.net  
-
 # 运行环境
 PHP 7.0+  
 MYSQL 5.6+  
