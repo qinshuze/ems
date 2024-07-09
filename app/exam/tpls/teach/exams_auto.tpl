@@ -44,10 +44,10 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="content">考试科目：</label>
+							<label class="control-label col-sm-2" for="content">考试题库：</label>
 						  	<div class="col-sm-4">
-							  	<select class="form-control combox" needle="needle" min="1" name="args[examsubject]" msg="请选择科目" onchange="javascript:loadsubjectsetting(this);">
-								  	<option value="">请选择科目</option>
+							  	<select class="form-control combox" needle="needle" min="1" name="args[examsubject]" msg="请选择题库" onchange="javascript:loadsubjectsetting(this);">
+								  	<option value="">请选择题库</option>
 								  	{x2;tree:$subjects,subject,sid}
 								  	<option value="{x2;v:subject['subjectid']}">{x2;v:subject['subject']}</option>
 								  	{x2;endtree}

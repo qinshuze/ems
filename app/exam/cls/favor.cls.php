@@ -283,7 +283,7 @@ class favor_exam
         return true;
     }
 
-	//根据用户和科目获取考试记录列表
+	//根据用户和题库获取考试记录列表
 	public function getExamHistoryListByArgs($args = array(),$page,$number = 20,$fields = false,$orderby = "ehscore DESC,ehid DESC")
 	{
 		$page = $page > 0?$page:1;
@@ -301,7 +301,7 @@ class favor_exam
 		return $r;
 	}
 
-	//根据用户和科目获取考试记录列表
+	//根据用户和题库获取考试记录列表
 	public function getAllExamHistoryByArgs($args = array(),$fields = false)
 	{
 		$args[] = array("AND","examhistory.ehuserid = user.userid");

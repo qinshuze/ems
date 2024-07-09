@@ -54,7 +54,7 @@
 									</select>
 								</td>
 								<td>
-									选择科目：
+									选择题库：
 								</td>
 								<td>
 									<select name="search[examsubject]" class="form-control">
@@ -75,7 +75,7 @@
 						<thead>
 							<tr class="info">
 			                    <th width="60">ID</th>
-								<th>考试科目</th>
+								<th>考试题库</th>
 								<th>考试名称</th>
 						        <th width="120">组卷人</th>
 						        <th width="100">组卷类型</th>

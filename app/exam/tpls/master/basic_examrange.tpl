@@ -39,7 +39,7 @@
 									{x2;$basic['basicid']}
 								</td>
 								<td>
-									科目：
+									题库：
 								</td>
 								<td>
 									{x2;$subjects[$basic['basicsubjectid']]['subject']}
@@ -80,7 +80,7 @@
 						          	<input type="radio" name="args[basicexam][rulemodel]" value="0"{x2;if:$basic['basicexam']['rulemodel'] == 0} checked{x2;endif}/> 对题量配比生效（上述指定范围抽题）
 					          	</label>
 					          	<label class="radio-inline">
-					          		<input type="radio" name="args[basicexam][rulemodel]" value="1"{x2;if:$basic['basicexam']['rulemodel'] == 1} checked{x2;endif}/> 对题量配比无效（允许跨科目抽题）
+					          		<input type="radio" name="args[basicexam][rulemodel]" value="1"{x2;if:$basic['basicexam']['rulemodel'] == 1} checked{x2;endif}/> 对题量配比无效（允许跨题库抽题）
 					          	</label>
 							</div>
 						</div>

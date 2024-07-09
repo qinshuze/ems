@@ -68,11 +68,11 @@
 									<input class="form-control" name="search[basicapi]" type="text" value="{x2;$search['basicapi']}"/>
 								</td>
 								<td>
-									科目：
+									题库：
 								</td>
 								<td>
 					        		<select name="search[basicsubjectid]" class="form-control">
-						        		<option value="0">选择科目</option>
+						        		<option value="0">选择题库</option>
 								  		{x2;tree:$subjects,subject,sid}
 								  		<option value="{x2;v:subject['subjectid']}"{x2;if:v:subject['subjectid'] == $search['basicsubjectid']} selected{x2;endif}>{x2;v:subject['subject']}</option>
 								  		{x2;endtree}
@@ -106,7 +106,7 @@
 				                    <th width="80">考试ID</th>
 							        <th>考场名称</th>
 							        <th width="220">考试地区</th>
-							        <th width="220">考试科目</th>
+							        <th width="220">考试题库</th>
 							        <th width="80">开通人数</th>
 							        <th width="60">状态</th>
 							        <th width="260">操作</th>

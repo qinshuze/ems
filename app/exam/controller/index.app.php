@@ -136,7 +136,7 @@ class action extends app
         	\PHPEMS\ginkgo::R($message);
 			break;
 
-			//根据科目获取章节信息
+			//根据题库获取章节信息
 			case 'getsectionsbysubjectid':
 			$sectionids = $this->data['currentbasic']['basicsection'];
 			$aknows = $this->section->getSectionListByArgs(array(array("AND","sectionid IN (:sectionsubjectid)",'sectionsubjectid',$sectionids)));

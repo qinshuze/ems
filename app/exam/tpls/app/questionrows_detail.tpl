@@ -1,7 +1,7 @@
 				<table class="table table-hover">
 					{x2;if:$question['qrknowsid']}
 					<tr class="noborder">
-			          <td width="100">科目：</td>
+			          <td width="100">题库：</td>
 			          <td>{x2;$subject['subject']}&nbsp;</td>
 			        </tr>
 			        <tr>

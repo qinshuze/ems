@@ -186,7 +186,7 @@ class question_exam
 		return $t;
 	}
 
-	//根据科目和地区信息获取知识点
+	//根据题库和地区信息获取知识点
 	public function getKnowsBySubjectAndAreaid($subjectid,$areaid)
 	{
 		$data = array('esknowsids','examsection',array(array("AND","essubjectid = :subjectid",'subjectid',$subjectid),array("AND","esareaid = :esareaid",'esareaid',$areaid)));

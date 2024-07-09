@@ -66,11 +66,11 @@
 							</tr>
 					        <tr>
 								<td>
-									科目：
+									题库：
 								</td>
 								<td>
 					        		<select name="search[questionsubjectid]" class="combox form-control" target="sectionselect" refUrl="?exam-master-questions-ajax-getsectionsbysubjectid&subjectid={value}">
-						        		<option value="0">选择科目</option>
+						        		<option value="0">选择题库</option>
 								  		{x2;tree:$subjects,subject,sid}
 								  		<option value="{x2;v:subject['subjectid']}"{x2;if:v:subject['subjectid'] == $search['questionsubjectid']} selected{x2;endif}>{x2;v:subject['subject']}</option>
 								  		{x2;endtree}

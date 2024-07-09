@@ -35,7 +35,7 @@
 					  		<label class="control-label col-sm-2"></label>
 					  		<div class="col-sm-9 form-inline">
 						  		<select class="combox form-control" target="isectionselect" refUrl="index.php?exam-master-questions-ajax-getsectionsbysubjectid&subjectid={value}">
-					        		<option value="0">选择科目</option>
+					        		<option value="0">选择题库</option>
 							  		{x2;tree:$subjects,subject,sid}
 							  		<option value="{x2;v:subject['subjectid']}">{x2;v:subject['subject']}</option>
 							  		{x2;endtree}

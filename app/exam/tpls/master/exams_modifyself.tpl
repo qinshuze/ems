@@ -44,7 +44,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-sm-2">考试科目：</label>
+							<label class="control-label col-sm-2">考试题库：</label>
 						  	<div class="col-sm-9">
 							  	<label class="radio">{x2;$subjects[$exam['examsubject']]['subject']}</label>
 							</div>

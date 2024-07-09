@@ -844,7 +844,7 @@ class action extends app
 			{
 				$message = array(
 					'statusCode' => 300,
-					"message" => "操作失败，该科目下已经存在同名的章节"
+					"message" => "操作失败，该题库下已经存在同名的章节"
 				);
 			}
 			else
@@ -882,7 +882,7 @@ class action extends app
 			{
 				$message = array(
 					'statusCode' => 300,
-					"message" => "操作失败，本科目下已经存在这个章节",
+					"message" => "操作失败，本题库下已经存在这个章节",
 				    "forwardUrl" => "index.php?exam-master-basic-section&subjectid={$section['sectionsubjectid']}&page={$page}"
 				);
 			}
@@ -1105,7 +1105,7 @@ class action extends app
 			{
 				$message = array(
 				'statusCode' => 300,
-				"message" => "操作失败，该科目已经存在"
+				"message" => "操作失败，该题库已经存在"
 				);
 				\PHPEMS\ginkgo::R($message);
 			}
@@ -1161,7 +1161,7 @@ class action extends app
 		if($section)
 		$message = array(
 			'statusCode' => 300,
-			"message" => "操作失败，请删除该科目下所有章节后再删除本科目"
+			"message" => "操作失败，请删除该题库下所有章节后再删除本题库"
 		);
 		else
 		{
