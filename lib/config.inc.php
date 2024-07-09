@@ -21,16 +21,16 @@ else
 define('OPENOSS',false);
 
 /**接口加密设置**/
-define('APIKEY','35abcdec2532ceb0945b615a922c3370');
-define('APIIV','#phpems90iv*');
+define('APIKEY', env('APIKEY'));
+define('APIIV', env('APIIV'));
 /**composer开关**/
 define('COMPOSER',0);
 /** 数据库设置 */
 define('SQLDEBUG',0);
-define('DB','pe9');//MYSQL数据库名
-define('DH','127.0.0.1');//MYSQL主机名，不用改
-define('DU','root');//MYSQL数据库用户名
-define('DP','root');//MYSQL数据库用户密码
+define('DB', env('DB_NAME'));//MYSQL数据库名
+define('DH', env('DB_HOST'));//MYSQL主机名，不用改
+define('DU', env('DB_USER'));//MYSQL数据库用户名
+define('DP', env('DB_PASSWORD'));//MYSQL数据库用户密码
 define('DTH','x2_');//系统表前缀，不用改
 
 /** 微信相关设置 */

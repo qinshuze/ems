@@ -2,12 +2,15 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/app/core" isTestSource="false" packagePrefix="PHPEMS" />
-      <sourceFolder url="file://$MODULE_DIR$/app/course" isTestSource="false" packagePrefix="PHPEMS" />
-      <sourceFolder url="file://$MODULE_DIR$/app/exam" isTestSource="false" packagePrefix="PHPEMS" />
-      <sourceFolder url="file://$MODULE_DIR$/app/user" isTestSource="false" packagePrefix="PHPEMS" />
-      <sourceFolder url="file://$MODULE_DIR$/app/weixin" isTestSource="false" packagePrefix="PHPEMS" />
-      <sourceFolder url="file://$MODULE_DIR$/lib/include/aliyunoss/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/data" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/graham-campbell/result-type" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpoption/phpoption" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-ctype" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php80" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/vlucas/phpdotenv" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
