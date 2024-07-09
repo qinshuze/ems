@@ -11,7 +11,7 @@
 				<div class="box itembox" style="margin-bottom:0px;border-bottom:1px solid #CCCCCC;">
 					<div class="col-xs-12">
 						<ol class="breadcrumb">
-							<li><a href="index.php?core-master">全局</a></li>
+							<li><a href="index.php?{x2;$_app}-master">{x2;$apps[$_app]['appname']}</a></li>
 							<li><a href="index.php?core-master-navs">导航管理</a></li>
 							<li class="active">修改导航</li>
 						</ol>

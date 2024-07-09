@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>PHPEMS模拟考试系统</title>
+    <title><?php echo env('WEB_TITLE', '在线考试系统'); ?></title>
     <meta name="viewport" content="width=750,maximum-scale=1.5,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>

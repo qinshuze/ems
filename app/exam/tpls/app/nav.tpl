@@ -4,7 +4,7 @@
 			<ul class="list-unstyled list-inline">
 				<li>
 					<a href="" class="menu">
-						新乡市落笔千言网络技术有限公司
+						<?php echo env('APP_NAME', '在线考试'); ?>
 					</a>
 				</li>
 			</ul>
@@ -59,7 +59,9 @@
 <div class="header">
 	<div class="nav">
 		<div class="col-xs-3">
-			<h1 class="logo"><img src="files/public/img/logo.png" style="height:56px;"/></h1>
+			<h1 class="logo">
+				<?php echo env('WEB_LOGO'); ?>
+			</h1>
 		</div>
 		<div class="col-xs-9">
 			<ul class="list-unstyled list-inline text-right">

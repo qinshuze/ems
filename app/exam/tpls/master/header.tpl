@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>PHPEMS模拟考试系统后台管理</title>
+	<title><?php echo env('WEB_BACKSTAGE_TITLE', '在线考试系统管理后台'); ?></title>
 	<meta name="viewport" content="width=750, ,maximum-scale=1.5,user-scalable=no">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<link rel="stylesheet" type="text/css" href="files/public/css/bootstrap.css" />

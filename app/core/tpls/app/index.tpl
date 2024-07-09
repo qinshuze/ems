@@ -12,7 +12,8 @@
                                 {x2;tree:$topimgs['data'],content,cid}
 								<div class="swiper-slide">
 									<a href="index.php?content-app-content&contentid={x2;v:content['pccontentid']}">
-										<img src="{x2;v:content['pcthumb']}" style="max-width:100%;"/>
+										<!--<img src="{x2;v:content['pcthumb']}" style="max-width:100%;"/> -->
+										<?php echo env('WEB_LOGO'); ?>
 									</a>
 								</div>
 								{x2;endif}
@@ -22,7 +23,7 @@
 					</div>
 					<div class="content-box padding">
 						<h2 class="title">
-							最新考试
+							考试与练习
 							<a href="index.php?exam" class="badge pull-right">更多 <em class="glyphicon glyphicon-plus"></em> </a>
 						</h2>
 						<ul class="list-box list-unstyled">

@@ -14,14 +14,14 @@
 					<div class="col-xs-12">
 						<ol class="breadcrumb">
 							<li><a href="index.php?{x2;$_app}-master">{x2;$apps[$_app]['appname']}</a></li>
-							<li class="active">考场管理</li>
+							<li class="active">考试与练习</li>
 						</ol>
 					</div>
 				</div>
 				<div class="box itembox" style="padding-top:10px;margin-bottom:0px;">
 					<h4 class="title" style="padding:10px;">
-						考场管理
-						<a class="btn btn-primary pull-right" href="index.php?exam-master-basic-add">添加考场</a>
+						考试与练习
+						<a class="btn btn-primary pull-right" href="index.php?exam-master-basic-add">添加考试</a>
 					</h4>
 					<form action="index.php?exam-master-basic" method="post">
 						<table class="table form-inline">
@@ -36,7 +36,7 @@
 				            </thead>
 							<tr>
 								<td>
-									考场ID：
+									考试ID：
 								</td>
 								<td>
 									<input name="search[basicid]" class="form-control" type="text" class="number" value="{x2;$search['basicid']}"/>
@@ -103,9 +103,9 @@
 							<thead>
 								<tr class="info">
 				                    <th width="60"><input type="checkbox" class="checkall"/></th>
-				                    <th width="80">考场ID</th>
+				                    <th width="80">考试ID</th>
 							        <th>考场名称</th>
-							        <th width="220">考场地区</th>
+							        <th width="220">考试地区</th>
 							        <th width="220">考试科目</th>
 							        <th width="80">开通人数</th>
 							        <th width="60">状态</th>
@@ -137,6 +137,7 @@
 										{x2;if:v:basic['basicclosed']}关闭{x2;else}开启{x2;endif}
 									</td>
 									<td>
+										<!--
 										<div class="btn-group">
 											<a class="btn" href="index.php?exam-master-basic-members&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="人员管理"><em class="glyphicon glyphicon-user"></em></a>
 					                    	<a class="btn" href="index.php?exam-master-basic-scorelist&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="成绩管理"><em class="glyphicon glyphicon-duplicate"></em></a>
@@ -144,7 +145,15 @@
 											<a class="btn" href="index.php?exam-master-basic-setexamrange&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="考试范围"><em class="glyphicon glyphglyphicon glyphicon-cog"></em></a>
 											<a class="btn" href="index.php?exam-master-basic-modifybasic&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="修改"><em class="glyphicon glyphglyphicon glyphicon-edit"></em></a>
 											<a class="btn confirm" href="index.php?exam-master-basic-delbasic&basicid={x2;v:basic['basicid']}&page={x2;$page}{x2;$u}" title="删除"><em class="glyphicon glyphglyphicon glyphicon-remove"></em></a>
-										</div>
+										</div> -->
+
+										<a role="button" class="btn btn-primary btn-xs" href="index.php?exam-master-basic-members&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="人员管理">人员管理</a>
+										<a role="button" class="btn btn-primary btn-xs" href="index.php?exam-master-basic-scorelist&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="成绩管理">成绩管理</a>
+										<a role="button" class="btn btn-primary btn-xs" href="index.php?exam-master-basic-offpaper&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="考试调度">考试调度</a>
+										<a role="button" class="btn btn-primary btn-xs" href="index.php?exam-master-basic-setexamrange&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="考试范围">考试范围</a>
+										<a role="button" class="btn btn-primary btn-xs" href="index.php?exam-master-basic-modifybasic&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="修改">修改</a>
+										<a role="button" class="btn btn-danger btn-xs confirm" href="index.php?exam-master-basic-delbasic&basicid={x2;v:basic['basicid']}&page={x2;$page}{x2;$u}" title="删除">删除</a>
+
 									</td>
 						        </tr>
 						        {x2;endtree}

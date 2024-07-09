@@ -17,25 +17,7 @@
 					</div>
 				</div>
 				<div class="box itembox" style="padding-top:10px;margin-bottom:0px;">
-					<div class="col-xs-12">
-						<h5 class="title">
-							开发者信息
-						</h5>
-						<p>
-							QQ:278768688 官方站：<a href="http://www.phpems.net">http://www.phpems.net</a> 本版版本号：{x2;c:PE_VERSION}
-						</p>
-					</div>
-					<div class="col-xs-12">
-						<h5 class="title">
-							使用帮助
-						</h5>
-						<p>
-							常见问题：<a href="http://www.phpems.net/index.php?ask">http://www.phpems.net/index.php?ask</a>
-						</p>
-						<p>
-							微信公众号：PHPEMS
-						</p>
-					</div>
+					<h1>欢迎使用<?php echo env('APP_NAME', '在线考试管理系统'); ?></h1>
 				</div>
 			</div>
 		</div>
