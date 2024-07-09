@@ -14,7 +14,7 @@
 					<div class="col-xs-12">
 						<ol class="breadcrumb">
 							<li><a href="index.php?{x2;$_app}-master">{x2;$apps[$_app]['appname']}</a></li>
-							<li><a href="index.php?{x2;$_app}-master-basic">考场管理</a></li>
+							<li><a href="index.php?{x2;$_app}-master-basic">考试与练习</a></li>
 							<li class="active">修改考场</li>
 						</ol>
 					</div>
@@ -22,7 +22,7 @@
 				<div class="box itembox" style="padding-top:10px;margin-bottom:0px;">
 					<h4 class="title" style="padding:10px;">
 						修改考场
-						<a class="btn btn-primary pull-right" href="index.php?exam-master-basic&page={x2;$page}{x2;$u}">考场管理</a>
+						<a class="btn btn-primary pull-right" href="index.php?exam-master-basic&page={x2;$page}{x2;$u}">考试与练习</a>
 					</h4>
 		        	<form action="index.php?exam-master-basic-modifybasic" method="post" class="form-horizontal">
 						<fieldset>

@@ -14,7 +14,7 @@
 					<div class="col-xs-12">
 						<ol class="breadcrumb">
 							<li><a href="index.php?{x2;$_app}-master">{x2;$apps[$_app]['appname']}</a></li>
-							<li><a href="index.php?{x2;$_app}-master-basic-subject">科目管理</a></li>
+							<li><a href="index.php?{x2;$_app}-master-basic-subject">题库管理</a></li>
 							<li><a href="index.php?{x2;$_app}-master-basic-section&subjectid={x2;$section['sectionsubjectid']}">章节管理</a></li>
 							<li class="active">知识点管理</li>
 						</ol>
@@ -44,12 +44,17 @@
 									<td>{x2;v:know['knowsid']}</td>
 									<td>{x2;v:know['knows']}</td>
 									<td>
-										<div class="btn-group">
+										<!--<div class="btn-group">
 											<a class="btn ajax" href="index.php?exam-master-basic-clearpoint&knowsid={x2;v:know['knowsid']}" title="更新缓存"><em class="glyphicon glyphicon-refresh"></em></a>
 											<a class="btn ajax" href="index.php?exam-master-basic-output&knowsid={x2;v:know['knowsid']}&page={x2;$page}{x2;$u}" title="导出题库"><em class="glyphicon glyphicon-download-alt"></em></a>
 											<a class="btn" href="index.php?{x2;$_app}-master-basic-modifypoint&knowsid={x2;v:know['knowsid']}&page={x2;$page}{x2;$u}" title="修改知识点"><em class="glyphicon glyphicon-edit"></em></a>
 											<a class="btn confirm" href="index.php?{x2;$_app}-master-basic-delpoint&sectionid={x2;v:know['knowssectionid']}&knowsid={x2;v:know['knowsid']}&page={x2;$page}{x2;$u}" title="删除知识点"><em class="glyphicon glyphicon-remove"></em></a>
-										</div>
+										</div> -->
+										<a role="button" class="btn btn-primary btn-xs ajax" href="index.php?exam-master-basic-clearpoint&knowsid={x2;v:know['knowsid']}" title="更新缓存">更新缓存</a>
+										<a role="button" class="btn btn-primary btn-xs ajax" href="index.php?exam-master-basic-output&knowsid={x2;v:know['knowsid']}&page={x2;$page}{x2;$u}" title="导出题库">导出题库</a>
+										<a role="button" class="btn btn-primary btn-xs" href="index.php?{x2;$_app}-master-basic-modifypoint&knowsid={x2;v:know['knowsid']}&page={x2;$page}{x2;$u}" title="修改知识点">修改知识点</a>
+										<a role="button" class="btn btn-danger btn-xs confirm" href="index.php?{x2;$_app}-master-basic-delpoint&sectionid={x2;v:know['knowssectionid']}&knowsid={x2;v:know['knowsid']}&page={x2;$page}{x2;$u}" title="删除知识点">删除知识点</a>
+
 									</td>
 								</tr>
 								{x2;endtree}

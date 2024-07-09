@@ -14,7 +14,7 @@
 					<div class="col-xs-12">
 						<ol class="breadcrumb">
 							<li><a href="index.php?{x2;$_app}-master">{x2;$apps[$_app]['appname']}</a></li>
-							<li><a href="index.php?{x2;$_app}-master-basic">考场管理</a></li>
+							<li><a href="index.php?{x2;$_app}-master-basic">考试与练习</a></li>
 							<li class="active">成绩分析</li>
 						</ol>
 					</div>

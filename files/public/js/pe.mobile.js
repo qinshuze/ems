@@ -200,7 +200,7 @@ var pep = {
     'version':'1.0',
     'copyright':'phpems pro',
 	'brands':['撷水成文','PHPEMS'],
-	'Corperation':'新乡市落笔千言网络技术有限公司',
+	'Corperation':'<?php echo env(\'APP_COMPANY\'); ?>',
     'width':$(window).width(),
     'height':$(window).height(),
     'countdownloop':false,

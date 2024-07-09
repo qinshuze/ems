@@ -14,13 +14,13 @@
 					<div class="col-xs-12">
 						<ol class="breadcrumb">
 							<li><a href="index.php?{x2;$_app}-teach">{x2;$apps[$_app]['appname']}</a></li>
-							<li class="active">考场管理</li>
+							<li class="active">考试与练习</li>
 						</ol>
 					</div>
 				</div>
 				<div class="box itembox" style="padding-top:10px;margin-bottom:0px;">
 					<h4 class="title" style="padding:10px;">
-						考场管理
+						考试与练习
 					</h4>
 					<form action="index.php?exam-teach-basic" method="post">
 						<table class="table form-inline">

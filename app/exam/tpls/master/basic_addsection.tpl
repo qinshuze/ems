@@ -14,8 +14,8 @@
 					<div class="col-xs-12">
 						<ol class="breadcrumb">
 							<li><a href="index.php?{x2;$_app}-master">{x2;$apps[$_app]['appname']}</a></li>
-							<li><a href="index.php?{x2;$_app}-master-basic-subject">科目管理</a></li>
-							<li><a href="index.php?{x2;$_app}-master-basic-section&subjectid={x2;$subjectid}&page={x2;$page}">科目管理</a></li>
+							<li><a href="index.php?{x2;$_app}-master-basic-subject">题库管理</a></li>
+							<li><a href="index.php?{x2;$_app}-master-basic-section&subjectid={x2;$subjectid}&page={x2;$page}">题库管理</a></li>
 							<li class="active">添加章节</li>
 						</ol>
 					</div>

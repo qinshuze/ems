@@ -5,7 +5,7 @@
 	{x2;endif}
 	<div class="page-tabs">
 		<div class="page-header">
-			<div class="col-10">PHPEMS模拟考试系统</div>
+			<div class="col-10"><?php echo env('WEB_TITLE', '在线考试系统'); ?></div>
 		</div>
 		<div class="page-content header footer">
 			<div class="swiper-container" style="height: auto;">

@@ -4,7 +4,7 @@
 			<div class="col-xs-12">
 				<ul class="list-unstyled list-inline">
 					<li class="logo">
-						PHPEMS{x2;c:PE_VERSION}
+						<?php echo env('WEB_LOGO'); ?>
 					</li>
 					<li class="menu"><a href="index.php?core-teach">首页</a></li>
 					<li class="menu"><a href="index.php?course-teach">课程</a></li>
