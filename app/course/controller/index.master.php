@@ -33,7 +33,7 @@ class action extends app
 			}
 		}
 		else
-		echo "<option value=\"\">请先选择科目</option>";
+		echo "<option value=\"\">请先选择题库</option>";
 	}
 
 	private function index()

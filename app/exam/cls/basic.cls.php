@@ -110,9 +110,9 @@ class basic_exam
 		return $this->db->fetch($sql);
 	}
 
-	//获取科目列表
+	//获取题库列表
 	//参数：无
-	//返回值：科目列表数组
+	//返回值：题库列表数组
 	public function getSubjectList($args = 1)
 	{
 		$data = array(false,'subject',$args,false,false);
@@ -120,9 +120,9 @@ class basic_exam
 		return $this->db->fetchAll($sql,'subjectid','subjectsetting');
 	}
 
-	//根据科目查询
-	//参数：科目名称字符串
-	//返回值：科目信息数组
+	//根据题库查询
+	//参数：题库名称字符串
+	//返回值：题库信息数组
 	public function getSubjectByName($subject)
 	{
 		$data = array(false,'subject',array(array("AND","subject = :subject",'subject',$subject)));
@@ -130,9 +130,9 @@ class basic_exam
 		return $this->db->fetch($sql,'subjectsetting');
 	}
 
-	//根据科目ID查询科目信息
-	//参数：科目ID整数
-	//返回值：科目信息数组
+	//根据题库ID查询题库信息
+	//参数：题库ID整数
+	//返回值：题库信息数组
 	public function getSubjectById($subjectid)
 	{
 		$data = array(false,'subject',array(array("AND","subjectid = :subjectid",'subjectid',$subjectid)));
@@ -140,8 +140,8 @@ class basic_exam
 		return $this->db->fetch($sql,'subjectsetting');
 	}
 
-	//修改科目信息
-	//参数：科目ID，修改的信息数组
+	//修改题库信息
+	//参数：题库ID，修改的信息数组
 	//返回值：true
 	public function modifySubject($subjectid,$args)
 	{
@@ -151,8 +151,8 @@ class basic_exam
 		return true;
 	}
 
-	//增加科目
-	//参数：科目ID，修改的信息数组
+	//增加题库
+	//参数：题库ID，修改的信息数组
 	//返回值：true
 	public function addSubject($args)
 	{
@@ -162,8 +162,8 @@ class basic_exam
 		return $this->db->lastInsertId();
 	}
 
-	//删除科目
-	//参数：科目ID
+	//删除题库
+	//参数：题库ID
 	//返回值：受影响的记录数
 	public function delSubject($id)
 	{
@@ -174,7 +174,7 @@ class basic_exam
 	}
 
 	//设置地区配置信息
-	//参数：科目ID，配置信息数组
+	//参数：题库ID，配置信息数组
 	//返回值：受影响的记录数
 	public function setSubjectConfig($id,$args)
 	{
@@ -184,7 +184,7 @@ class basic_exam
 		//return $this->db->affectedRows();
 	}
 
-	//通过获取地区、科目、代码对应关系列表
+	//通过获取地区、题库、代码对应关系列表
 	//参数：页码，每页显示数量，查询信息数组
 	//返回值：配置信息数组
 	public function getBasicList($args = array(),$page,$number = 20,$orderby = 'basicid desc')
@@ -203,7 +203,7 @@ class basic_exam
 		return $r;
 	}
 
-	//通过ID获取地区、科目、代码对应关系
+	//通过ID获取地区、题库、代码对应关系
 	//参数：页码，每页显示数量，配置信息数组
 	//返回值：配置信息数组
 	public function getBasicById($id)
@@ -227,7 +227,7 @@ class basic_exam
 		return $this->db->fetchAll($sql,'basicid',array('basicknows','basicsection','basicexam'));
 	}
 
-	//通过考试ID获取地区、科目、代码对应关系
+	//通过考试ID获取地区、题库、代码对应关系
 	//参数：考试ID
 	//返回值：对应关系数组
 	public function getBasicByExamid($id)
@@ -237,7 +237,7 @@ class basic_exam
 		return $this->db->fetchAll($sql,array('basicknows','basicsection','basicexam'));
 	}
 
-	//通过多个考试ID获取地区、科目、代码对应关系
+	//通过多个考试ID获取地区、题库、代码对应关系
 	//参数：多个考试ID，以英文逗号连接
 	//返回值：对应关系列表数组
 	public function getBasicsByApi($id)
@@ -248,7 +248,7 @@ class basic_exam
 		return $this->db->fetchAll($sql,'basicid',array('basicknows','basicsection','basicexam'));
 	}
 
-	//添加地区、科目、代码对应关系
+	//添加地区、题库、代码对应关系
 	//参数：要添加的对应关系形成的数组
 	//返回值：插入的记录ID
 	public function addBasic($args)
@@ -259,7 +259,7 @@ class basic_exam
 		return $this->db->lastInsertId();
 	}
 
-	//设置地区、科目、代码对应关系
+	//设置地区、题库、代码对应关系
 	//参数：要添加的对应关系形成的数组
 	//返回值：插入的记录ID
 	public function setBasicConfig($id,$args)
@@ -270,7 +270,7 @@ class basic_exam
 		//$this->db->affectedRows();
 	}
 
-	//删除地区、科目、代码对应关系
+	//删除地区、题库、代码对应关系
 	//参数：对应关系ID
 	//返回值：受影响的记录数
 	public function delBasic($id)

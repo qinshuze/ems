@@ -16,13 +16,13 @@
 							<li><a href="index.php?{x2;$_app}-master">{x2;$apps[$_app]['appname']}</a></li>
 							<li><a href="index.php?{x2;$_app}-master-basic-subject">题库管理</a></li>
 							<li><a href="index.php?{x2;$_app}-master-basic-section&subjectid={x2;$subjectid}&page={x2;$page}">章节管理</a></li>
-							<li class="active">添加章节</li>
+							<li class="active">修改章节</li>
 						</ol>
 					</div>
 				</div>
 				<div class="box itembox" style="padding-top:10px;margin-bottom:0px;">
 					<h4 class="title" style="padding:10px;">
-						添加章节
+						修改章节
 						<a class="btn btn-primary pull-right" href="index.php?exam-master-basic-section&subjectid={x2;$subjectid}&page={x2;$page}">章节管理</a>
 					</h4>
 		        	<form action="index.php?exam-master-basic-modifysection" method="post" class="form-horizontal">

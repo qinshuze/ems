@@ -39,7 +39,7 @@
 									{x2;$basic['basicid']}
 								</td>
 								<td>
-									科目：
+									题库：
 								</td>
 								<td>
 									{x2;$subjects[$basic['basicsubjectid']]['subject']}

@@ -54,7 +54,7 @@
 									</select>
 								</td>
 								<td>
-									选择科目：
+									选择题库：
 								</td>
 								<td>
 									<select name="search[examsubject]" class="form-control">
@@ -79,7 +79,7 @@
 						        <th>组卷人</th>
 						        <th>组卷类型</th>
 						        <th>组卷时间</th>
-						        <th>考试科目</th>
+						        <th>考试题库</th>
 						        <th width="220">操作</th>
 			                </tr>
 			            </thead>

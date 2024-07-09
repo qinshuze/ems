@@ -244,7 +244,7 @@ class action extends app
 			//exit(json_encode($data));
 			break;
 
-			//根据科目获取章节信息
+			//根据题库获取章节信息
 			case 'getsectionsbysubjectid':
 			$esid = $this->ev->get('subjectid');
 			$aknows = $this->section->getSectionListByArgs(array(array('AND',"sectionsubjectid = :sectionsubjectid",'sectionsubjectid',$esid)));

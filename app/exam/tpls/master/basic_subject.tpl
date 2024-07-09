@@ -41,14 +41,14 @@
 										<a class="btn ajax" href="index.php?exam-master-basic-clearpoint&subjectid={x2;v:subject['subjectid']}" title="更新缓存"><em class="glyphicon glyphicon-refresh"></em></a>
 										<a class="btn ajax" href="index.php?exam-master-basic-output&subjectid={x2;v:subject['subjectid']}&page={x2;$page}{x2;$u}" title="导出题库"><em class="glyphicon glyphicon-download-alt"></em></a>
 										<a class="btn" href="index.php?exam-master-basic-section&subjectid={x2;v:subject['subjectid']}&page=1&basicid={x2;v:basic['basicid']}{x2;$u}" title="章节列表"><em class="glyphicon glyphicon-th-list"></em></a>
-										<a class="btn" href="index.php?exam-master-basic-modifysubject&subjectid={x2;v:subject['subjectid']}&page={x2;$page}{x2;$u}" title="修改科目信息"><em class="glyphicon glyphicon-edit"></em></a>
-										<a class="btn ajax" href="index.php?exam-master-basic-delsubject&subjectid={x2;v:subject['subjectid']}&page={x2;$page}{x2;$u}" title="删除科目"><em class="glyphicon glyphicon-remove"></em></a>
+										<a class="btn" href="index.php?exam-master-basic-modifysubject&subjectid={x2;v:subject['subjectid']}&page={x2;$page}{x2;$u}" title="修改题库信息"><em class="glyphicon glyphicon-edit"></em></a>
+										<a class="btn ajax" href="index.php?exam-master-basic-delsubject&subjectid={x2;v:subject['subjectid']}&page={x2;$page}{x2;$u}" title="删除题库"><em class="glyphicon glyphicon-remove"></em></a>
 									</div> -->
 									<a role="button" class="btn btn-primary btn-xs ajax" href="index.php?exam-master-basic-clearpoint&subjectid={x2;v:subject['subjectid']}" title="更新缓存">更新缓存</a>
 									<a role="button" class="btn btn-primary btn-xs ajax" href="index.php?exam-master-basic-output&subjectid={x2;v:subject['subjectid']}&page={x2;$page}{x2;$u}" title="导出题库">导出题库</a>
 									<a role="button" class="btn btn-primary btn-xs" href="index.php?exam-master-basic-section&subjectid={x2;v:subject['subjectid']}&page=1&basicid={x2;v:basic['basicid']}{x2;$u}" title="章节列表">章节列表</a>
-									<a role="button" class="btn btn-primary btn-xs" href="index.php?exam-master-basic-modifysubject&subjectid={x2;v:subject['subjectid']}&page={x2;$page}{x2;$u}" title="修改科目信息">修改科目信息</a>
-									<a role="button" class="btn btn-danger btn-xs ajax confirm" href="index.php?exam-master-basic-delsubject&subjectid={x2;v:subject['subjectid']}&page={x2;$page}{x2;$u}" title="删除科目">删除科目</em></a>
+									<a role="button" class="btn btn-primary btn-xs" href="index.php?exam-master-basic-modifysubject&subjectid={x2;v:subject['subjectid']}&page={x2;$page}{x2;$u}" title="修改题库信息">修改题库信息</a>
+									<a role="button" class="btn btn-danger btn-xs ajax confirm" href="index.php?exam-master-basic-delsubject&subjectid={x2;v:subject['subjectid']}&page={x2;$page}{x2;$u}" title="删除题库">删除题库</em></a>
 								</td>
 							</tr>
 							{x2;endtree}

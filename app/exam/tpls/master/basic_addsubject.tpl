@@ -15,25 +15,25 @@
 						<ol class="breadcrumb">
 							<li><a href="index.php?{x2;$_app}-master">{x2;$apps[$_app]['appname']}</a></li>
 							<li><a href="index.php?{x2;$_app}-master-basic-subject">题库管理</a></li>
-							<li class="active">添加科目</li>
+							<li class="active">添加题库</li>
 						</ol>
 					</div>
 				</div>
 				<div class="box itembox" style="padding-top:10px;margin-bottom:0px;">
 					<h4 class="title" style="padding:10px;">
-						添加科目
+						添加题库
 						<a class="btn btn-primary pull-right" href="index.php?exam-master-basic-subject">题库管理</a>
 					</h4>
 			        <form action="index.php?exam-master-basic-addsubject" method="post" class="form-horizontal">
 						<fieldset>
 							<div class="form-group">
-								<label for="subject" class="control-label col-sm-2">科目名称：</label>
+								<label for="subject" class="control-label col-sm-2">名称：</label>
 								<div class="col-sm-4">
-									<input class="form-control" name="subject" id="subject" type="text" size="30" value="" needle="needle" msg="您必须输入一个科目名称" />
+									<input class="form-control" name="subject" id="subject" type="text" size="30" value="" needle="needle" msg="您必须输入一个名称" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="subject" class="control-label col-sm-2">科目题型：</label>
+								<label for="subject" class="control-label col-sm-2">题型：</label>
 								<div class="col-sm-9">
 									{x2;tree:$questypes,questype,qid}
 									<label class="checkbox-inline">

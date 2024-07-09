@@ -44,7 +44,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-sm-2">考试科目：</label>
+							<label class="control-label col-sm-2">考试题库：</label>
 						  	<div class="col-sm-9">
 							  	<label class="radio">{x2;$subjects[$exam['examsubject']]['subject']}</label>
 							</div>
@@ -196,7 +196,7 @@
 					<div class="form-group autoloaditem" style="max-height:240px;overflow-y:scroll;" id="tablecontent" autoload="index.php?exam-master-exams-ajax-getsubjectknows&subjectid={x2;$exam['examsubject']}">
 						<table class="table table-hover table-bordered" style="width:86%;margin:auto;">
 							<tr class="info">
-								<td colspan="3">请先选择科目</td>
+								<td colspan="3">请先选择题库</td>
 							</tr>
 						</table>
 					</div>
