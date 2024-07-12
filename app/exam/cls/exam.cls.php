@@ -283,6 +283,11 @@ class exam_exam
 		return $r;
 	}
 
+	function is_gbk($string) {
+		$encoding = mb_detect_encoding($string, array('GBK', 'UTF-8', 'ISO-8859-1', 'ASCII'), true);
+		return $encoding === 'GBK';
+	}
+
 	public function importQuestionBat($uploadfile,$tknowsid,$questionparent = 0)
 	{
 		$this->session = \PHPEMS\ginkgo::make('session');
@@ -307,8 +312,12 @@ class exam_exam
 						{
 							$this->resetRowsQuestionNumber($qrid);
 						}
-						$args['qrtype'] = $question[0];
-						$args['qrquestion'] = $this->ev->addSlashes(htmlspecialchars(iconv("GBK","UTF-8//IGNORE",trim(nl2br($question[1])," \n\t"))));
+
+						$qrquestion = trim(nl2br($question[1])," \n\t");
+						$qrquestion = $this->is_gbk($qrquestion) ? iconv("GBK","UTF-8//IGNORE",$qrquestion) : $qrquestion;
+
+						$args['qrtype'] = trim($question[0], " \xEF\xBB\xBF\n\t");
+						$args['qrquestion'] = $this->ev->addSlashes(trim(htmlspecialchars($qrquestion)));
 						$args['qrlevel'] = $question[7];
 						$args['qrtime'] = TIME;
                         $args['qruserid'] = $userid;
@@ -338,13 +347,27 @@ class exam_exam
 					else
 					{
 						$args['questiontype'] = intval($question[0]);
-						$args['question'] = $this->ev->addSlashes(htmlspecialchars(iconv("GBK","UTF-8//IGNORE",trim($question[1]," \n\t"))));
-						$args['questionselect'] = $this->ev->addSlashes(htmlspecialchars(iconv("GBK","UTF-8//IGNORE",trim($question[2]," \n\t"))));
+
+						$convStr = trim(nl2br($question[1])," \n\t");
+						$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
+						$args['question'] = $this->ev->addSlashes(htmlspecialchars($convStr));
+						
+						$convStr = trim(nl2br($question[2])," \n\t");
+						$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
+						$args['questionselect'] = $this->ev->addSlashes(htmlspecialchars($convStr));
+
 						$args['questionselectnumber'] = intval(trim($question[3]," \n\t"));
-						$args['questionanswer'] = $this->ev->addSlashes(htmlspecialchars(iconv("GBK","UTF-8//IGNORE",trim($question[4]," \n\t"))));
-						$args['questiondescribe'] = $this->ev->addSlashes(htmlspecialchars(iconv("GBK","UTF-8//IGNORE",trim($question[5]," \n\t"))));
+
+						$convStr = trim(nl2br($question[4])," \n\t");
+						$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
+						$args['questionanswer'] = $this->ev->addSlashes(htmlspecialchars($convStr));
+						
+						$convStr = trim(nl2br($question[5])," \n\t");
+						$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
+						$args['questiondescribe'] = $this->ev->addSlashes(htmlspecialchars($convStr));
+						
 						if($qrid)$args['questionparent'] = $qrid;
-						$args['questionlevel'] = intval(trim($question[7]," \n\t"));
+						$args['questionlevel'] = intval(trim($question[7]," \xEF\xBB\xBF\n\t"));
 						$args['questioncreatetime'] = TIME;
                         $args['questionuserid'] = $userid;
                         $args['questionusername'] = $username;
@@ -354,12 +377,26 @@ class exam_exam
 				else
 				{
 					$args['questiontype'] = intval($question[0]);
-					$args['question'] = $this->ev->addSlashes(htmlspecialchars(iconv("GBK","UTF-8//IGNORE",trim($question[1]," \n\t"))));
-					$args['questionselect'] = $this->ev->addSlashes(htmlspecialchars(iconv("GBK","UTF-8//IGNORE",trim($question[2]," \n\t"))));
-					$args['questionselectnumber'] = intval(trim($question[3]," \n\t"));
-					$args['questionanswer'] = $this->ev->addSlashes(htmlspecialchars(iconv("GBK","UTF-8//IGNORE",trim($question[4]," \n\t"))));
-					$args['questiondescribe'] = $this->ev->addSlashes(htmlspecialchars(iconv("GBK","UTF-8//IGNORE",trim($question[5]," \n\t"))));
-                    $args['questionuserid'] = $userid;
+
+					$convStr = trim(nl2br($question[1])," \n\t");
+					$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
+					$args['question'] = $this->ev->addSlashes(htmlspecialchars($convStr));
+					
+					$convStr = trim(nl2br($question[2])," \n\t");
+					$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
+					$args['questionselect'] = $this->ev->addSlashes(htmlspecialchars($convStr));
+					
+					$args['questionselectnumber'] = intval(trim($question[3]," \xEF\xBB\xBF\n\t"));
+					
+					$convStr = trim(nl2br($question[4])," \n\t");
+					$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
+					$args['questionanswer'] = $this->ev->addSlashes(htmlspecialchars($convStr));
+					
+					$convStr = trim(nl2br($question[5])," \n\t");
+					$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
+					$args['questiondescribe'] = $this->ev->addSlashes(htmlspecialchars($convStr));
+                    
+					$args['questionuserid'] = $userid;
                     $args['questionusername'] = $username;
 					if(!$tknowsid)
 					$questionknowsid = trim($question[6]," \n\t");
@@ -382,7 +419,7 @@ class exam_exam
 						}
 					}
 					if($questionparent)$args['questionparent'] = $questionparent;
-					$args['questionlevel'] = intval(trim($question[7]," \n\t"));
+					$args['questionlevel'] = intval(trim($question[7]," \xEF\xBB\xBF\n\t"));
 					$args['questioncreatetime'] = TIME;
 					$this->addQuestions($args);
 				}
