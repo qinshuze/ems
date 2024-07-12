@@ -58,7 +58,7 @@
 						                </div>
 						            </div>
 						        </script>
-						        <div class="fineuploader" attr-type="files" attr-template="pe-template-uploadfile" attr-ftype="csv"></div>
+						        <div class="fineuploader" attr-type="files" attr-template="pe-template-uploadfile" attr-ftype="xlsx,xls"></div>
 							</div>
 						</div>
 						<div class="form-group">

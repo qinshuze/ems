@@ -1,13 +1,16 @@
 <?php
  namespace PHPEMS;
 
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+
 class exam_exam
 {
 	public $G;
 
 	public function __construct()
 	{
-		
+
 	}
 
 	public function _init()
@@ -288,7 +291,162 @@ class exam_exam
 		return $encoding === 'GBK';
 	}
 
-	public function importQuestionBat($uploadfile,$tknowsid,$questionparent = 0)
+    public function importQuestionByXlsxSheet(Worksheet $sheet, $userid, $username, $tknowsid,$questionparent = 0)
+    {
+        // 定义索引
+        $numberIndex = 'A';
+        $contentIndex = 'B';
+        $typeIndex = 'C';
+        $levelIndex = 'D';
+        $answerIndex = 'E';
+        $analyzeIndex = 'F';
+
+        // 题型映射
+        $typeMap = [1 => 1, 2 => 3, 3 => 5];
+
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+
+        // 获取表头
+        $header = $sheet->rangeToArray('A1:'.$highestColumn.'1', null, true, true, true)[1];
+
+        // 获取试题选项和扩展项索引
+        $optionsIndexArr = [];
+        $knowsIdIndex = '';
+        $isQRIndex = '';
+        $isTitleIndex = '';
+        foreach ($header as $key => $value) {
+            // 移除空格、bom标记和换行制表符
+            $str = trim($value, " \xEF\xBB\xBF\n\t");
+
+            // 如果不是UTF8编码，则转换为UTF8
+            $encoding = mb_detect_encoding($str, mb_list_encodings(), true);
+            if ($encoding !== "UTF-8") $str = iconv($encoding, "UTF-8//IGNORE", $str);
+            $header[$key] = $str;
+
+            if ($value == '是否题冒题') { $isQRIndex = $key; continue; }
+            if ($value == '是否题冒') { $isTitleIndex = $key; continue; }
+            if ($value == '知识点ID') { $knowsIdIndex = $key; continue; }
+
+            if (preg_match('/选项[A-Z]/', $value)) {
+                $name = mb_substr($value, -1, 1);
+                $optionsIndexArr[$name] = $key;
+                continue;
+            }
+        }
+
+        ksort($optionsIndexArr);
+        $qrid = 0;
+
+        // 遍历数据
+        for ($row = 2; $row <= $highestRow; $row++) {
+            // 获取整行数据
+            $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, null, true, true, true)[$row];
+
+            // 处理编码格式
+            foreach ($rowData as $key => $value) {
+                // 移除bom标记
+                $str = trim($value, "\xEF\xBB\xBF");
+                // 转换编码
+                $encoding = mb_detect_encoding($str, mb_list_encodings(), true);
+                if ($encoding !== "UTF-8") $str = iconv($encoding, "UTF-8//IGNORE", $str);
+                $rowData[$key] = $str;
+            }
+
+            // 转换选项
+            $optionsHtmlStr = '<p>';
+            foreach ($optionsIndexArr as $name => $index) {
+                $optionsHtmlStr .= $name . ':' . $rowData[$index] . '&nbsp;';
+            }
+            $optionsHtmlStr = rtrim($optionsHtmlStr, '&nbsp;') . '</p>';
+
+            // 处理知识点
+            $questionknowsid = $tknowsid ?: $knowsIdIndex ? trim($rowData[$knowsIdIndex]," \n\t") : '';
+            $questionKnowsIdStr = '';
+            if($questionknowsid) {
+                $questionknowsid = explode(',',$questionknowsid);
+                $tmpkid = '0';
+
+                foreach($questionknowsid as $knowsid) {
+                    $knowsid = intval($knowsid);
+                    if($knowsid)$tmpkid .= ",".$knowsid;
+                }
+
+                $knows = $this->section->getKnowsListByArgs(array(array("AND","find_in_set(knowsid,:knowsid)",'knowsid',$tmpkid)));
+                foreach($knows as $p) {
+                    $questionKnowsIdStr .= $p['knowsid'].':'.$p['knows']."\n";
+                }
+            }
+
+            // 格式化数据
+            $isQR = !!intval(trim($rowData[$isQRIndex]," \n\t"));
+            $isTitle = !!intval(trim($rowData[$isTitleIndex]," \n\t"));
+            $questionContent = $this->ev->addSlashes(htmlspecialchars(trim(nl2br($rowData[$contentIndex])," \n\t")));
+            $questionType = $typeMap[intval($rowData[$typeIndex])];
+            $questionLevel = intval(trim($rowData[$levelIndex]," \n\t"));
+            $questionOptions = $this->ev->addSlashes(htmlspecialchars(trim(nl2br($optionsHtmlStr)," \n\t")));
+            $questionAnswer = $this->ev->addSlashes(htmlspecialchars(trim(nl2br($rowData[$answerIndex])," \n\t")));
+            $questionAnalyze = $this->ev->addSlashes(htmlspecialchars(trim(nl2br($rowData[$analyzeIndex])," \n\t")));
+
+            // 如果是题冒，则添加到题冒
+            if ($isTitle) {
+                if($qrid) $this->resetRowsQuestionNumber($qrid);
+                $insertQuestionRowsData = [];
+                $insertQuestionRowsData['qrtype'] = $questionType;
+                $insertQuestionRowsData['qrquestion'] = $questionContent;
+                $insertQuestionRowsData['qrlevel'] = $questionLevel;
+                $insertQuestionRowsData['qrtime'] = TIME;
+                $insertQuestionRowsData['qruserid'] = $userid;
+                $insertQuestionRowsData['qrusername'] = $username;
+                $insertQuestionRowsData['qrknowsid'] = $questionKnowsIdStr;
+
+                // 插入题冒数据，并跳出循环
+                $qrid = $this->addQuestionRows($insertQuestionRowsData);
+                continue;
+            }
+
+            // 组装数据
+            $insertQuestionData = [];
+            $insertQuestionData['questiontype'] = $questionType;
+            $insertQuestionData['question'] = $questionContent;
+            $insertQuestionData['questionselect'] = $questionOptions;
+            $insertQuestionData['questionselectnumber'] = count($optionsIndexArr);
+            $insertQuestionData['questionanswer'] = $questionAnswer;
+            $insertQuestionData['questiondescribe'] = $questionAnalyze;
+            $insertQuestionData['questionlevel'] = $questionLevel;
+            $insertQuestionData['questionuserid'] = $userid;
+            $insertQuestionData['questionusername'] = $username;
+            $insertQuestionData['questioncreatetime'] = TIME;
+            $insertQuestionData['questionknowsid'] = $questionKnowsIdStr;
+            if ($questionparent) $insertQuestionData['questionparent'] = $questionparent;
+
+            // 如果是题冒题并且题冒id存在，则将其与题冒绑定
+            if ($isQR && $qrid) $insertQuestionData['questionparent'] = $qrid;
+
+            // 插入试题数据
+            $this->addQuestions($insertQuestionData);
+        }
+
+        if($qrid) $this->resetRowsQuestionNumber($qrid);
+    }
+
+    public function importQuestionBat($uploadfile,$tknowsid,$questionparent = 0)
+    {
+        $this->session = \PHPEMS\ginkgo::make('session');
+        $this->_user = $this->session->getSessionUser();
+        $userid = $this->_user['sessionuserid'];
+        $username = $this->_user['sessionusername'];
+
+        // 导入表格数据
+        $spreadsheet = IOFactory::load($uploadfile);
+        foreach ($spreadsheet->getWorksheetIterator() as $sheet) {
+            $this->importQuestionByXlsxSheet($sheet, $userid, $username, $tknowsid, $questionparent);
+        }
+
+        return true;
+    }
+
+	public function importQuestionBat_bak($uploadfile,$tknowsid,$questionparent = 0)
 	{
 		$this->session = \PHPEMS\ginkgo::make('session');
         $this->_user = $this->session->getSessionUser();
@@ -351,7 +509,7 @@ class exam_exam
 						$convStr = trim(nl2br($question[1])," \n\t");
 						$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
 						$args['question'] = $this->ev->addSlashes(htmlspecialchars($convStr));
-						
+
 						$convStr = trim(nl2br($question[2])," \n\t");
 						$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
 						$args['questionselect'] = $this->ev->addSlashes(htmlspecialchars($convStr));
@@ -361,11 +519,11 @@ class exam_exam
 						$convStr = trim(nl2br($question[4])," \n\t");
 						$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
 						$args['questionanswer'] = $this->ev->addSlashes(htmlspecialchars($convStr));
-						
+
 						$convStr = trim(nl2br($question[5])," \n\t");
 						$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
 						$args['questiondescribe'] = $this->ev->addSlashes(htmlspecialchars($convStr));
-						
+
 						if($qrid)$args['questionparent'] = $qrid;
 						$args['questionlevel'] = intval(trim($question[7]," \xEF\xBB\xBF\n\t"));
 						$args['questioncreatetime'] = TIME;
@@ -381,21 +539,21 @@ class exam_exam
 					$convStr = trim(nl2br($question[1])," \n\t");
 					$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
 					$args['question'] = $this->ev->addSlashes(htmlspecialchars($convStr));
-					
+
 					$convStr = trim(nl2br($question[2])," \n\t");
 					$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
 					$args['questionselect'] = $this->ev->addSlashes(htmlspecialchars($convStr));
-					
+
 					$args['questionselectnumber'] = intval(trim($question[3]," \xEF\xBB\xBF\n\t"));
-					
+
 					$convStr = trim(nl2br($question[4])," \n\t");
 					$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
 					$args['questionanswer'] = $this->ev->addSlashes(htmlspecialchars($convStr));
-					
+
 					$convStr = trim(nl2br($question[5])," \n\t");
 					$convStr = $this->is_gbk($convStr) ? iconv("GBK","UTF-8//IGNORE",$convStr) : $convStr;
 					$args['questiondescribe'] = $this->ev->addSlashes(htmlspecialchars($convStr));
-                    
+
 					$args['questionuserid'] = $userid;
                     $args['questionusername'] = $username;
 					if(!$tknowsid)
