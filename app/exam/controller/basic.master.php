@@ -904,6 +904,7 @@ class action extends app
 			$sectionid = $this->ev->get('sectionid');
 			$section = $this->section->getSectionByArgs(array(array("AND","sectionid = :sectionid",'sectionid',$sectionid)));
 			$subjects = $this->basic->getSubjectList();
+			$this->tpl->assign('subjectid',$section['sectionsubjectid']);
 			$this->tpl->assign('subjects',$subjects);
 			$this->tpl->assign('section',$section);
 			$this->tpl->display('basic_modifysection');

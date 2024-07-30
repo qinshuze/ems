@@ -382,7 +382,8 @@ class exam_exam
             $isQR = !!intval(trim($rowData[$isQRIndex]," \n\t"));
             $isTitle = !!intval(trim($rowData[$isTitleIndex]," \n\t"));
             $questionContent = $this->ev->addSlashes(htmlspecialchars(trim(nl2br($rowData[$contentIndex])," \n\t")));
-            $questionType = $typeMap[intval($rowData[$typeIndex])];
+//            $questionType = $typeMap[intval($rowData[$typeIndex])];
+            $questionType = intval($rowData[$typeIndex]);
             $questionLevel = intval(trim($rowData[$levelIndex]," \n\t"));
             $questionOptions = $this->ev->addSlashes(htmlspecialchars(trim(nl2br($optionsHtmlStr)," \n\t")));
             $questionAnswer = $this->ev->addSlashes(htmlspecialchars(trim(nl2br($rowData[$answerIndex])," \n\t")));
