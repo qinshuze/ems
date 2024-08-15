@@ -13,6 +13,7 @@
 	<script src="files/public/js/jquery-ui.min.js"></script>
 	<script src="files/public/js/bootstrap.min.js"></script>
 	<script src="files/public/js/bootstrap-datetimepicker.js"></script>
+	<script src="files/public/js/bootstrap-datetimepicker-zh-patch.js"></script>
 	<script src="files/public/js/all.fine-uploader.min.js"></script>
 	<script src="files/public/js/ckeditor/ckeditor.js"></script>
 	<script src="files/public/js/pe.master.js"></script>

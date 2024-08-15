@@ -105,6 +105,7 @@
 				                    <th width="60"><input type="checkbox" class="checkall"/></th>
 				                    <th width="80">考试ID</th>
 							        <th>考场名称</th>
+							        <th>关联赛事</th>
 							        <th width="220">考试地区</th>
 							        <th width="220">考试题库</th>
 							        <th width="80">开通人数</th>
@@ -123,6 +124,9 @@
 									</td>
 									<td>
 										{x2;v:basic['basic']}
+									</td>
+									<td>
+										{x2;$tournaments[v:basic['tournament_id']]['name']}
 									</td>
 									<td>
 										{x2;$areas[v:basic['basicareaid']]['area']}

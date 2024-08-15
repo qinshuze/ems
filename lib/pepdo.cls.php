@@ -130,6 +130,12 @@
     	return $this->linkid->query($sql);
     }
 
+	public function getPdo(): \PDO
+	{
+		if(!$this->linkid)$this->connect();
+		return $this->linkid;
+	}
+
     public function exec($sql)
     {
     	$this->affectedRows = 0;

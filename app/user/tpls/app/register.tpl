@@ -8,7 +8,7 @@
 				<div class="col-xs-6 nopadding">
 					<div class="content-box padding">
 						<h2 class="title">
-							用户登陆
+							用户注册
 							<a href="index.php" class="badge pull-right">首页</a>
 						</h2>
 						<form method="post" action="index.php?user-app-register">
@@ -40,6 +40,52 @@
 										</div>
 										<div class="col-xs-8">
 											<input class="noborder" name="args[userpassword]" datatype="password" needle="needle" msg="请您输入正确的密码" placeholder="请输入密码">
+										</div>
+									</label>
+								</div>
+								<div class="form-group underline">
+									<label class="block">
+										<div class="col-xs-4 tip">
+											手机号
+										</div>
+										<div class="col-xs-8">
+											<input class="noborder" name="args[userphone]" datatype="phone" needle="needle" msg="请您输入正确的手机号" placeholder="请输入手机号">
+										</div>
+									</label>
+								</div>
+								<!--<div class="form-group underline">
+									<label class="block">
+										<div class="col-xs-4 tip">
+											密保
+										</div>
+										<div class="col-xs-8">
+											<input class="noborder" name="args[confidentiality_title]" datatype="phone" needle="needle" msg="请您输入密保问题" placeholder="请输入密保问题">
+											<input class="noborder" name="args[confidentiality_answer]" datatype="phone" needle="needle" msg="请您输入密保答案" placeholder="请输入密保答案">
+										</div>
+									</label>
+								</div>-->
+								<div class="form-group underline">
+									<label class="block">
+										<div class="col-xs-4 tip">
+											注册类型
+										</div>
+										<div class="col-xs-8">
+											<label style="font-weight: 400;margin-right: 15px;font-size: 14px">
+												<input checked style="margin: 0;" type="radio" name="args[is_mechanism]" id="is_mechanism0" value="0"> 普通用户
+											</label>
+											<label style="font-weight: 400;font-size: 14px">
+												<input style="margin: 0;" type="radio" name="args[is_mechanism]" id="is_mechanism1" value="1"> 机构用户
+											</label>
+										</div>
+									</label>
+								</div>
+								<div id="mechanism_name" style="display: none" class="form-group underline">
+									<label class="block">
+										<div class="col-xs-4 tip">
+											机构名称
+										</div>
+										<div class="col-xs-8">
+											<input class="noborder" name="args[mechanism]" msg="请您输入正确的机构名称" placeholder="请输入机构名称">
 										</div>
 									</label>
 								</div>
@@ -98,6 +144,17 @@
 	</div>
 </div>
 <script>
+	var eMechanism = document.getElementById('mechanism_name')
+	document.getElementById('is_mechanism0').onclick = function () {
+		eMechanism.style.display = 'none'
+		eMechanism.querySelector('input').removeAttribute('needle')
+	}
+
+	document.getElementById('is_mechanism1').onclick = function () {
+		eMechanism.style.display = 'block'
+		eMechanism.querySelector('input').setAttribute('needle', 'needle')
+	}
+
 	$(function(){
 		$('#modal').modal();
 		{x2;if:$app['appsetting']['emailverify']}

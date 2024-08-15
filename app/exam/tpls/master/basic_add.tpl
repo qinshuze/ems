@@ -33,6 +33,17 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="tournament_id" class="control-label col-sm-2">赛事</label>
+							<div class="col-sm-4">
+								<select class="form-control" id="tournament_id" name="args[tournament_id]" needle="needle" msg="您必须选择赛事">
+									<option value="">选择赛事</option>
+									{x2;tree:$tournaments,tournament,sid}
+									<option value="{x2;v:tournament['id']}">{x2;v:tournament['name']}</option>
+									{x2;endtree}
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="control-label col-sm-2">考场状态</label>
 							<div class="col-sm-9">
 								<label class="radio-inline">
@@ -60,8 +71,8 @@
 								            <ul class="qq-upload-list-selector list-unstyled" aria-live="polite" aria-relevant="additions removals" style="clear:both;">
 									            <li class="text-center">
 									                <div class="thumbnail">
-														<img class="qq-thumbnail-selector" src="app/core/styles/images/noimage.gif" alt="点击上传新图片">
-														<input type="hidden" class="qq-edit-filename-selector" name="args[basicthumb]" tabindex="0" value="app/core/styles/images/noimage.gif">
+														<img class="qq-thumbnail-selector" src="/files/public/img/noimage.gif" alt="点击上传新图片">
+														<input type="hidden" class="qq-edit-filename-selector" name="args[basicthumb]" tabindex="0" value="/files/public/img/noimage.gif">
 						                			</div>
 									            </li>
 									        </ul>

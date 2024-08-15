@@ -1096,6 +1096,22 @@ class action extends app
 		$this->tpl->display('basic_subject');
 	}
 
+	private function subjectsection()
+	{
+		$id = $this->ev->get('id');
+		if (!$id) return jsonResponse(422, '非法请求');
+		$sections = $this->basic->getSectionBySubjectId($id, 'sectionid,section');
+		return jsonResponse(200, 'ok', $sections);
+	}
+
+	private function sectionknow()
+	{
+		$id = $this->ev->get('id');
+		if (!$id) return jsonResponse(422, '非法请求');
+		$knows = $this->basic->getKnowBySectionId($id, 'knowsid,knows');
+		return jsonResponse(200, 'ok', $knows);
+	}
+
 	private function addsubject()
 	{
 		if($this->ev->get('insertsubject'))
@@ -1373,11 +1389,13 @@ class action extends app
 		}
 		else
 		{
+			$tournaments = $this->basic->getTournamentList([], 1, 9999)['data'];
 			$basicid = $this->ev->get('basicid');
 			$basic = $this->basic->getBasicById($basicid);
 			$subjects = $this->basic->getSubjectList();
 			$areas = $this->area->getAreaList();
 			$this->tpl->assign('areas',$areas);
+			$this->tpl->assign('tournaments',$tournaments);
 			$this->tpl->assign('subjects',$subjects);
 			$this->tpl->assign('basic',$basic);
 			$this->tpl->display('basic_modify');
@@ -1487,8 +1505,11 @@ class action extends app
 		else
 		{
 			$subjects = $this->basic->getSubjectList();
+			$tournaments = $this->basic->getTournamentList([], 1, 9999)['data'];
+
 			$areas = $this->area->getAreaList();
 			$this->tpl->assign('areas',$areas);
+			$this->tpl->assign('tournaments',$tournaments);
 			$this->tpl->assign('subjects',$subjects);
 			$this->tpl->display('basic_add');
 		}
@@ -1511,6 +1532,7 @@ class action extends app
 			if($search['basicareaid'])$args[] = array("AND","basicareaid = :basicareaid",'basicareaid',$search['basicareaid']);
 			if($search['basicsubjectid'])$args[] = array("AND","basicsubjectid = :basicsubjectid",'basicsubjectid',$search['basicsubjectid']);
 			if($search['basicapi'])$args[] = array("AND","basicapi = :basicapi",'basicapi',$search['basicapi']);
+			if($search['tournament_id'])$args[] = array("AND","tournament_id = :tournament_id",'basicapi',$search['tournament_id']);
 			if($search['basicclosed'])
 			{
 				if($search['basicclosed'] == 1)$basicclosed = 1;
@@ -1521,10 +1543,127 @@ class action extends app
 		}
 		$basics = $this->basic->getBasicList($args,$page,10);
 		$areas = $this->area->getAreaList();
+		$tournamentIds = array_column($basics['data'], 'tournament_id');
+		$tournaments = $this->basic->getTournamentByIds($tournamentIds, 'id,name');
+		$tournaments = array_column($tournaments, null, 'id');
+
 		$this->tpl->assign('areas',$areas);
+		$this->tpl->assign('tournaments',$tournaments);
 		$this->tpl->assign('subjects',$subjects);
 		$this->tpl->assign('basics',$basics);
 		$this->tpl->display('basic');
+	}
+
+	private function tournament()
+	{
+		$page = $this->ev->get('page') ?: 1;
+		$search = $this->ev->get('search');
+		$args = [];
+
+		!empty($search['keyword']) && $args[] = ['AND', "name LIKE :name", 'name', "%{$search['keyword']}%"];
+		!empty($search['type']) && $args[] = ['AND', "type = :type", 'type', $search['type']];
+
+		$cnTypes = [1 => '大赛', 2 => '考级'];
+		$tournaments = $this->basic->getTournamentList($args, $page, 10);
+
+		$this->tpl->assign('tournaments', $tournaments);
+		$this->tpl->assign('cnTypes', $cnTypes);
+		$this->tpl->assign('search', $search);
+		$this->tpl->display('basic_tournament');
+	}
+
+	private function addtournament()
+	{
+		if ($this->ev->get('inserttournament')) {
+			$loginUser = \PHPEMS\ginkgo::make('session')->getSessionUser();
+			$args = $this->ev->get('args');
+			$args['creator_id'] = intval($loginUser['sessionuserid']);
+			$args['updater_id'] = $args['creator_id'];
+			$args['create_time'] = time();
+			$args['update_time'] = $args['create_time'];
+
+			if (empty($args['signup_time'])) unset($args['signup_time']);
+			isset($args['signup_time']) && $args['signup_time'] = strtotime($args['signup_time']);
+
+			$id = $this->basic->addTournament($args);
+			$message = array(
+				'statusCode' => 200,
+				"message" => "操作成功",
+				"callbackType" => "forward",
+				"forwardUrl" => "index.php?exam-master-basic-tournament"
+			);
+
+			if (!$id) {
+				$message['statusCode'] = 500;
+				$message['message"'] = '操作失败：数据库操作失败';
+			}
+
+			\PHPEMS\ginkgo::R($message);
+		} else {
+			$this->tpl->display('basic_addtournament');
+		}
+	}
+
+	private function deltournament()
+	{
+		$ids = $this->ev->get('ids');
+		$res = $this->basic->delTournament($ids);
+		$message = array(
+			'statusCode' => 200,
+			"message" => "操作成功",
+			"callbackType" => "forward",
+			"forwardUrl" => "reload"
+		);
+
+		if (!$res) {
+			$message['statusCode'] = 500;
+			$message['message'] = '操作失败：数据库操作失败';
+		}
+
+		\PHPEMS\ginkgo::R($message);
+	}
+
+	private function modifytournament()
+	{
+		$id = $this->ev->get('id');
+
+		if (!$id) {
+			if (isset($_SERVER['HTTP_REFERER'])) {
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
+			} else {
+				header('Location: index.php?exam-master-basic-tournament');
+			}
+			exit();
+		}
+
+		if ($this->ev->get('modifytournament')) {
+			$loginUser = \PHPEMS\ginkgo::make('session')->getSessionUser();
+			$args = $this->ev->get('args');
+			$args['updater_id'] = intval($loginUser['sessionuserid']);
+			$args['update_time'] = time();
+
+			if (empty($args['signup_time'])) unset($args['signup_time']);
+			isset($args['signup_time']) && $args['signup_time'] = strtotime($args['signup_time']);
+
+			$res = $this->basic->modifyTournament($id, $args);
+			$message = array(
+				'statusCode' => 200,
+				"message" => "操作成功",
+				"callbackType" => "forward",
+				"forwardUrl" => "index.php?exam-master-basic-tournament"
+			);
+
+			if (!$res) {
+				$message['statusCode'] = 500;
+				$message['message"'] = '操作失败：数据库操作失败';
+			}
+
+			\PHPEMS\ginkgo::R($message);
+		} else {
+			$tournament = $this->basic->getTournamentDetails($id);
+			$this->tpl->assign('tournament', $tournament);
+			$this->tpl->display('basic_modifytournament');
+		}
 	}
 }
 

@@ -24,3 +24,28 @@ function env(string $name, string $defaultValue = ""): string
 {
     return $_ENV[$name] ?? $defaultValue;
 }
+
+function dump($var)
+{
+    echo '<pre>';
+    var_dump($var);
+    echo '</pre>';
+}
+
+function dd($var)
+{
+    dump($var);
+    die();
+}
+
+function jsonResponse(int $code = 200, string $msg = '操作成功', $data = [])
+{
+    $message = array(
+        'code' => $code,
+        "msg" => $msg,
+        "data" => $data,
+    );
+
+    echo json_encode($message);
+    return null;
+}

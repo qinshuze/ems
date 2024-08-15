@@ -23,6 +23,7 @@
 					<h4 class="title" style="padding:10px;">
 						CSV添加普通试题
 						<a class="btn btn-primary pull-right" href="index.php?{x2;$_app}-master-questions&page={x2;$page}{x2;$u}">普通试题管理</a>
+						<a style="margin-right: 10px;" class="btn btn-primary pull-right" href="index.php?{x2;$_app}-master-questions-tempdown">下载试题导入模板</a>
 					</h4>
 					<form action="index.php?exam-master-questions-filebataddquestion" method="post" class="form-horizontal">
 						<div class="form-group">

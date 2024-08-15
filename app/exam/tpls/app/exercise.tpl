@@ -1,4 +1,9 @@
 {x2;include:header}
+<style>
+	.badge.active {
+		background-color: #0f74a8;
+	}
+</style>
 <body>
 <div class="container-fluid">
 	<div class="row-fluid">
@@ -15,6 +20,13 @@
 						<h2 class="title">强化训练</h2>
 						<form action="index.php?exam-app-exercise" method="post" action-before="clearStorage">
 							<fieldset class="logbox">
+								<div class="form-group underline">
+									{x2;tree:$knows,know,sid}
+									{x2;if:v:sid < 10}
+									<a data-knowid="{x2;v:know['knowsid']}" data-sectionid="{x2;v:know['sectionid']}" class="know badge">{x2;v:know['knows']}</a>
+									{x2;endif}
+									{x2;endtree}
+								</div>
 								<div class="form-group underline">
 									<label class="block">
 										<div class="col-xs-4 tip">
@@ -67,5 +79,51 @@
 		</div>
 	</div>
 </div>
+<script>
+	var elKnows = document.querySelectorAll('.know')
+	var slSection = document.getElementById('thesectionid')
+	var slKnow = document.getElementById('theknowsid')
+
+	function activeKnowTag(el) {
+		elKnows.forEach(function (element) {
+			var className = element.getAttribute('class')
+			element.setAttribute('class', className.replace('active', ''))
+		})
+
+		var className = el.getAttribute('class').trim()
+		el.setAttribute('class', className + ' active')
+	}
+
+	elKnows.forEach(function (el) {
+		el.onclick = function (ev) {
+			activeKnowTag(el)
+
+			var sectionId = el.dataset.sectionid
+			var knowId = el.dataset.knowid
+
+			slSection.value = sectionId
+			slSection.dispatchEvent(new Event('change', {
+				bubbles: true, cancelable: true
+			}))
+
+
+			setTimeout(function () {
+				slKnow.value = knowId
+				slKnow.dispatchEvent(new Event('change', {
+					bubbles: true, cancelable: true
+				}))
+			}, 200)
+		}
+	})
+
+	slKnow.addEventListener('change', function (ev) {
+		elKnows.forEach(function (el) {
+			var knowId = el.dataset.knowid
+			if (knowId == slKnow.value) {
+				activeKnowTag(el)
+			}
+		})
+	})
+</script>
 </body>
 </html>

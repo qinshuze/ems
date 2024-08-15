@@ -553,6 +553,25 @@ class action extends app
 				);
 				\PHPEMS\ginkgo::R($message);
 			}
+
+			$count = 0;
+			foreach ($args['examsetting']['questype'] as $questype) {
+				if ($questype['easynumber']) $count += $questype['easynumber'];
+				if ($questype['middlenumber']) $count += $questype['middlenumber'];
+				if ($questype['hardnumber']) $count += $questype['hardnumber'];
+			}
+
+			if (!$count) {
+				$message = array(
+					'statusCode' => 422,
+					"message" => "请至少为一个难度设置出题数量，当前所有难度题目数量均为0",
+					"callbackType" => "forward",
+					"forwardUrl" => "index.php?exam-master-exams&page={$page}{$u}"
+				);
+				\PHPEMS\ginkgo::R($message);
+				return;
+			}
+
 			$this->exam->addExamSetting($args);
 			$message = array(
 				'statusCode' => 200,
@@ -967,6 +986,25 @@ class action extends app
 			}
 			else
 			$args['examquestions'] = $args['examquestions'];
+
+			$count = 0;
+			foreach ($args['examsetting']['questype'] as $questype) {
+				if ($questype['easynumber']) $count += $questype['easynumber'];
+				if ($questype['middlenumber']) $count += $questype['middlenumber'];
+				if ($questype['hardnumber']) $count += $questype['hardnumber'];
+			}
+
+			if (!$count) {
+				$message = array(
+					'statusCode' => 422,
+					"message" => "请至少为一个难度设置出题数量，当前所有难度题目数量均为0",
+					"callbackType" => "forward",
+					"forwardUrl" => "index.php?exam-master-exams&page={$page}{$u}"
+				);
+				\PHPEMS\ginkgo::R($message);
+				return;
+			}
+
 			foreach($args['examsetting']['questype'] as $key => $p)
 			{
 				if(!$args['examsetting']['questypelite'][$key])

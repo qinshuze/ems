@@ -110,6 +110,28 @@ class basic_exam
 		return $this->db->fetch($sql);
 	}
 
+	public function getOpenBasicIds(array $userIds, array $basicIds = [])
+	{
+		$userIds = array_map('intval', $userIds);
+		$userIdsPlaceholder = rtrim(str_repeat('?,', count($userIds)), ',');
+		$sql = "SELECT obbasicid as basic_id, obuserid as user_id FROM {$this->pdosql->tablepre}openbasics WHERE obuserid IN ($userIdsPlaceholder) AND obendtime > ?";
+
+		$params = array_merge($userIds, [time()]);
+		if ($basicIds) {
+			$basicIds = array_map('intval', $basicIds);
+			$basicIdsPlaceholder = rtrim(str_repeat('?,', count($basicIds)), ',');
+			$sql .= " AND obbasicid IN ($basicIdsPlaceholder)";
+			$params = array_merge($params,$basicIds);
+		}
+
+		/** @var \PDO $pdo */
+		$pdo = $this->db->getPdo();
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute($params);
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	}
+
 	//获取题库列表
 	//参数：无
 	//返回值：题库列表数组
@@ -257,6 +279,231 @@ class basic_exam
 		$sql = $this->pdosql->makeInsert($data);
 		$this->db->exec($sql);
 		return $this->db->lastInsertId();
+	}
+
+	/**
+	 * 根据赛事id获取考场
+	 * @param int $tournamentId
+	 * @return mixed
+	 */
+	public function getBasicByTournamentId(int $tournamentId)
+	{
+		$sql = "SELECT * FROM {$this->pdosql->tablepre}basic WHERE tournament_id = :id";
+
+		/** @var \PDO $pdo */
+		$pdo = $this->db->getPdo();
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute([':id' => $tournamentId]);
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	}
+
+
+    /**
+     * 获取赛事列表
+     * @param array $args
+     * @param int $page
+     * @param int $number
+     * @param string $orderby
+     * @return mixed
+     */
+	public function getTournamentList(array $args = [], int $page = 1, int $number = 20, string $orderby = 'id desc')
+	{
+		$r = ['data' => []];
+
+		$data = array('count(*) AS number','tournament',$args);
+		$sql = $this->pdosql->makeSelect($data);
+		$t = $this->db->fetch($sql);
+		$pages = $this->pg->outPage($this->pg->getPagesNumber($t['number'],$number),$page);
+		$r['pages'] = $pages;
+		$r['number'] = $t['number'];
+
+		if ($t['number'] && $t['number'] > 0) {
+			$data = [false,'tournament',$args,false,$orderby,
+				[intval($page-1)*$number,$number]
+			];
+			$sql = $this->pdosql->makeSelect($data);
+			$r['data'] = $this->db->fetchAll($sql);
+		}
+
+		return $r;
+	}
+
+	/**
+	 * 根据题库id获取章节
+	 * @param int $id
+	 * @return array|false
+	 */
+	public function getSectionBySubjectId(int $id, string $fields = '*')
+	{
+		$sql = "SELECT $fields FROM {$this->pdosql->tablepre}sections WHERE sectionsubjectid = :id";
+
+		/** @var \PDO $pdo */
+		$pdo = $this->db->getPdo();
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute([':id' => $id]);
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	}
+
+	/**
+	 * 根据章节id获取知识点
+	 * @param int $id
+	 * @return array|false
+	 */
+	public function getKnowBySectionId(int $id, string $fields = '*')
+	{
+		$sql = "SELECT $fields FROM {$this->pdosql->tablepre}knows WHERE knowssectionid = :id";
+
+		/** @var \PDO $pdo */
+		$pdo = $this->db->getPdo();
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute([':id' => $id]);
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	}
+
+	/**
+	 * 添加赛事
+	 * @param $args
+	 * @return int|false
+     */
+	public function addTournament($args)
+	{
+		$tournamentData = $args;
+		unset($tournamentData['content']);
+
+		$data = array('tournament', $tournamentData);
+		$sql = $this->pdosql->makeInsert($data);
+		$this->db->beginTransaction();
+
+		$res = $this->db->exec($sql);
+		if (!$res) {
+			$this->db->rollback();
+			return false;
+		}
+
+		$id = $this->db->lastInsertId();
+		$contentSql = $this->pdosql->makeInsert([
+			'tournament_content', ['tournament_id' => $id, 'content' => $args['content']]
+		]);
+
+		$res = $this->db->exec($contentSql);
+		if (!$res) {
+			$this->db->rollback();
+			return false;
+		}
+
+		$this->db->commit();
+		return intval($id);
+	}
+
+	/**
+	 * 更新赛事
+	 * @param $id
+	 * @param $args
+	 * @return bool
+	 */
+	public function modifyTournament($id, $args)
+	{
+		$tournamentData = $args;
+		unset($tournamentData['content']);
+
+		$data = array('tournament', $tournamentData, array(array("AND","id = :id",'id',$id)));
+		$sql = $this->pdosql->makeUpdate($data);
+
+		$this->db->beginTransaction();
+		$res = $this->db->exec($sql);
+		if (!$res) {
+			$this->db->rollback();
+			return false;
+		}
+
+		$contentSql = $this->pdosql->makeUpdate([
+			'tournament_content', ['content' => $args['content']],
+			[["AND","tournament_id = :tournament_id",'tournament_id',$id]]
+		]);
+
+		$res = $this->db->exec($contentSql);
+		if (!$res) {
+			$this->db->rollback();
+			return false;
+		}
+
+		$this->db->commit();
+		return $res;
+	}
+
+
+	/**
+	 * 删除赛事
+	 * @param int[] $ids
+	 * @return int|false
+	 */
+	public function delTournament(array $ids)
+	{
+		$ids = array_map('intval', $ids);
+		$strIds = rtrim(str_repeat('?,', count($ids)), ',');
+		$this->db->beginTransaction();
+
+		$contentSql = $this->pdosql->makeDelete(['tournament_content', [['AND', "tournament_id IN ($strIds)", 'tournament_id', $ids]]]);
+		$contentSql['v'] = $contentSql['v']['tournament_id'];
+		$res = $this->db->exec($contentSql);
+
+		if (!$res) {
+			$this->db->rollback();
+			return false;
+		}
+
+		$sql = $this->pdosql->makeDelete(['tournament', [['AND', "id IN ($strIds)", 'id', $ids]]]);
+		$sql['v'] = $sql['v']['id'];
+		$res = $this->db->exec($sql);
+		if (!$res) {
+			$this->db->rollback();
+			return false;
+		}
+
+		$this->db->commit();
+		return $res;
+	}
+
+	/**
+	 * 获取赛事详情
+	 * @param int $id
+	 * @return mixed
+	 */
+	public function getTournamentDetails(int $id)
+	{
+		$sql = "SELECT t.*,tc.content FROM {$this->pdosql->tablepre}tournament as t LEFT JOIN {$this->pdosql->tablepre}tournament_content as tc ON tc.tournament_id = t.id WHERE t.id = :id";
+
+		/** @var \PDO $pdo */
+		$pdo = $this->db->getPdo();
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute([':id' => $id]);
+
+		return $stmt->fetch(\PDO::FETCH_ASSOC);
+	}
+
+	/**
+	 * 根据id获取赛事
+	 * @param int[] $ids
+	 * @param string $fields
+	 * @return array|false
+	 */
+	public function getTournamentByIds(array $ids, string $fields = '*')
+	{
+		$pre = $this->pdosql->tablepre;
+		$ids = array_map('intval', $ids);
+		$strIds = rtrim(str_repeat('?,', count($ids)), ',');
+
+		$sql = "SELECT * FROM {$pre}tournament WHERE id IN ($strIds)";
+
+		/** @var \PDO $pdo */
+		$pdo = $this->db->getPdo();
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute($ids);
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	//设置地区、题库、代码对应关系

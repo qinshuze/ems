@@ -1,8 +1,15 @@
 {x2;if:!$userhash}
 {x2;include:header}
+
+<!-- 引入样式 -->
+<link rel="stylesheet" href="/files/public/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="/files/public/vue/dist/vue.js"></script>
+<script src="/files/public/element-ui/lib/index.js"></script>
+
 <body>
 {x2;include:nav}
-<div class="container-fluid">
+<div class="container-fluid" id="root">
 	<div class="row-fluid">
 		<div class="main">
 			<div class="col-xs-2 leftmenu">
@@ -35,7 +42,9 @@
 		                    {x2;tree:$subjects,subject,sid}
 							<tr>
 								<td>{x2;v:subject['subjectid']}</td>
-								<td>{x2;v:subject['subject']}</td>
+								<td>
+									<el-button type="text" @click="openSectionList({x2;v:subject['subjectid']})">{x2;v:subject['subject']}</el-button>
+								</td>
 								<td>
 									<!--<div class="btn-group">
 										<a class="btn ajax" href="index.php?exam-master-basic-clearpoint&subjectid={x2;v:subject['subjectid']}" title="更新缓存"><em class="glyphicon glyphicon-refresh"></em></a>
@@ -59,8 +68,78 @@
 {x2;if:!$userhash}
 		</div>
 	</div>
+
+	<el-dialog
+			title="章节信息"
+			:visible.sync="dialogVisible"
+			width="50%"
+			:destroy-on-close="true"
+	>
+		<div style="min-height: 300px" v-loading="loading">
+			<el-tree v-if="dialogVisible" :props="defaultProps" lazy :load="loadNode">
+				<span class="custom-tree-node" slot-scope="{ node, data }">
+					<span>{{ data.label }}</span>
+					<span><el-tag size="mini">ID: {{ data.id }}</el-tag></span>
+			  	</span>
+			</el-tree>
+		</div>
+	</el-dialog>
 </div>
+
 {x2;include:footer}
+
+<script>
+	new Vue({
+		el: '#root',
+		data: function() {
+			return {
+				dialogVisible: false,
+				loading: false,
+				defaultProps: {
+					children: 'children',
+					label: 'label',
+					isLeaf: 'isLeaf'
+				},
+				currentSubjectId: 0
+			}
+		},
+		methods: {
+			loadNode(node, resolve) {
+				if (node.level > 1) return resolve([]);
+
+				if (node.level === 0) {
+					$.ajax({
+						url: `/index.php?exam-master-basic-subjectsection&id=${this.currentSubjectId}`,
+						success: (res) => {
+							res = JSON.parse(res)
+							if (res.code !== 200) return this.$message.error(res.msg);
+							resolve(res.data.map(item => ({id: item.sectionid, label: item.section, children: []})))
+						},
+						complete: () => {
+							this.loading = false
+						}
+					})
+				} else {
+					$.ajax({
+						url: `/index.php?exam-master-basic-sectionknow&id=${node.data.id}`,
+						success: (res) => {
+							res = JSON.parse(res)
+							if (res.code !== 200) return this.$message.error(res.msg);
+							resolve(res.data.map(item => ({id: item.knowsid, label: item.knows, children: [], isLeaf: true})))
+						},
+					})
+				}
+			},
+
+			openSectionList(id) {
+				this.dialogVisible = true
+				this.loading = true
+				this.currentSubjectId = id
+			}
+		}
+	})
+</script>
+
 </body>
 </html>
 {x2;endif}

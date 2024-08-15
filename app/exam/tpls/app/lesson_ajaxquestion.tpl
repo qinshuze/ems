@@ -3,7 +3,7 @@
 			<a class="badge pull-right favor" data-questionid="{x2;$question['questionid']}">收藏</a>
 			<a class="badge pull-right error" data-questionid="{x2;$question['questionid']}">纠错</a>
             {x2;if:$number < $allnumber}
-			<a class="jump next badge pull-right" data-number="{x2;eval: echo $number + 1}">下一题</a>
+			<a id="next" class="jump next badge pull-right" data-number="{x2;eval: echo $number + 1}">下一题</a>
 			{x2;endif}
             {x2;if:$number > 1}
 			<a class="jump prev badge pull-right" data-number="{x2;eval: echo $number - 1}">上一题</a>
@@ -113,13 +113,17 @@
 			</li>
 		</ul>
 		<script type="text/javascript">
+			var elNext = document.getElementById('next')
 		$(function(){
 			var sumquestion = function(value,qid){
                 $('.rightanswer').removeClass('hide');
                 if(value == $("#rightanswer_"+qid).html())
                 {
-                    $.zoombox.show('ajaxOK',{message:'回答正确'});
+                    $.zoombox.show('ajaxOK',{message:'回答正确，即将进入下一题'});
                     $("#rightanswer_"+qid).attr('class','text-success');
+					setTimeout(function () {
+						elNext.click()
+					}, 1000)
                 }
                 else
                 {

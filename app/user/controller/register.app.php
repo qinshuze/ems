@@ -172,6 +172,15 @@ class action extends app
 			{
                 $fargs['useropenid'] = $_SESSION['openid'];
 			}
+
+			$fargs['userphone'] = $args['userphone'] ?: '';
+			$fargs['mechanism'] = $args['mechanism'] ?: '';
+			$fargs['is_mechanism'] = $args['is_mechanism'] ? intval($args['is_mechanism']) : 0;
+			$fargs['confidentiality'] = [
+				'title' => $args['confidentiality_title'],
+				'answer' => $args['confidentiality_answer'],
+			];
+
 			$id = $this->user->insertUser($fargs);
 			$this->session->setSessionUser(array('sessionuserid'=>$id,'sessionpassword'=>md5($args['userpassword']),'sessionip'=>$this->ev->getClientIp(),'sessiongroupid'=>$defaultgroup['groupid'],'sessionlogintime'=>TIME,'sessionusername'=>$username));
 			$message = array(

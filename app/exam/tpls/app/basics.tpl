@@ -9,7 +9,7 @@
                 {x2;endif}
 				<div class="col-xs-9">
 					<div class="content-box padding">
-						<h2 class="title">考场与练习</h2>
+						<h2 class="title">考试与练习</h2>
 						<ul class="list-box list-unstyled">
                             {x2;tree:$basics['data'],basic,bid}
 							<li class="col-xs-4 box">

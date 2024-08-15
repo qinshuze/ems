@@ -160,13 +160,16 @@ class action extends app
 			}
 			$this->tpl->assign('price',$price);
 		}
-		if((!$basic['basicexam']['allowgroup']) || (strpos(','.$basic['basicexam']['allowgroup'].',',",{$this->_user['sessiongroupid']},") !== false))
-		$allowopen = 1;
+		if((!$basic['basicexam']['allowgroup']) || (strpos(','.$basic['basicexam']['allowgroup'].',',",{$this->_user['sessiongroupid']},") !== false)) {
+			$allowopen = 1;
+		}
+
 		$isopen = $this->basic->getOpenBasicByUseridAndBasicid($this->_user['sessionuserid'],$basicid);
         $subject = $this->basic->getSubjectById($basic['basicsubjectid']);
         $args = array();
         $args[] = array("AND","basicclosed = 0");
         $basics = $this->basic->getBasicsByArgs($args,5);
+
         $this->tpl->assign('news',$basics);
         $this->tpl->assign('subject',$subject);
 		$this->tpl->assign('isopen',$isopen);
@@ -174,6 +177,52 @@ class action extends app
 		$this->tpl->assign('allowopen',$allowopen);
 		$this->tpl->assign('basic',$basic);
 		$this->tpl->display('basics_detail');
+	}
+
+	private function detail_list()
+	{
+		$userId = $this->_user['sessionuserid'];
+		$this->basic->delOpenPassBasic($userId);
+
+		$tournamentId = $this->ev->get('tournament_id');
+		$tournament = $this->basic->getTournamentDetails($tournamentId);
+		$basics = $this->basic->getBasicByTournamentId($tournamentId);
+		$openBasics = $this->basic->getOpenBasicIds([$userId], array_column($basics, 'basicid'));
+		$openBasics = array_column($openBasics, null, 'basic_id');
+
+		$prices = [];
+		$allowOpens = [];
+		foreach ($basics as &$basic) {
+			$basicId = $basic['basicid'];
+			$basic['basicexam'] = unserialize($basic['basicexam']);
+			$basic['basicknows'] = unserialize($basic['basicknows']);
+			$basic['basicsection'] = unserialize($basic['basicsection']);
+
+			if (trim($basic['basicprice'])) {
+				$basic['basicprice'] = explode("\n",$basic['basicprice']);
+				foreach($basic['basicprice'] as $p) {
+					if (!$p) continue;
+					$p = explode(":",$p);
+					$prices[$basicId][] = ['time'=>$p[0],'price'=>$p[1]];
+				}
+			}
+
+			if((!$basic['basicexam']['allowgroup']) || (strpos(','.$basic['basicexam']['allowgroup'].',',",{$this->_user['sessiongroupid']},") !== false)) {
+				$allowOpens[$basicId] = 1;
+			}
+		}
+
+		$args = array();
+		$args[] = array("AND","basicclosed = 0");
+		$news = $this->basic->getBasicsByArgs($args,5);
+
+		$this->tpl->assign('news',$news);
+		$this->tpl->assign('tournament', $tournament);
+		$this->tpl->assign('isopen',$openBasics);
+		$this->tpl->assign('allowopen',$allowOpens);
+		$this->tpl->assign('basics',$basics);
+		$this->tpl->assign('price',$prices);
+		$this->tpl->display('basics_detail_list');
 	}
 
 	private function index()

@@ -33,6 +33,17 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label for="tournament_id" class="control-label col-sm-2">赛事</label>
+								<div class="col-sm-4">
+									<select class="form-control" id="tournament_id" name="args[tournament_id]" needle="needle" msg="您必须选择赛事">
+										<option value="">选择赛事</option>
+										{x2;tree:$tournaments,tournament,sid}
+										<option value="{x2;v:tournament['id']}" {x2;if:v:tournament['id'] == $basic['tournament_id']} selected {x2;endif} >{x2;v:tournament['name']}</option>
+										{x2;endtree}
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="control-label col-sm-2">考场状态</label>
 								<div class="col-sm-9">
 									<label class="radio-inline">

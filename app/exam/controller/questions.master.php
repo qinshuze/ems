@@ -394,6 +394,19 @@ class action extends app
 		$this->tpl->assign('questions',$questions);
 		$this->tpl->display('questions');
 	}
+
+	private function tempdown()
+	{
+		$filepath = PEPATH . '/files/temp/question_import.xlsx';
+		$filename = 'question_import.xlsx';
+		header("Content-type: application/octet-stream");
+		header("Accept-Range: bytes");
+		header("Accept-Length: " . filesize($filepath));
+		header("Content-Disposition: attachment; filename=$filename");
+
+		readfile($filepath);
+		exit();
+	}
 }
 
 

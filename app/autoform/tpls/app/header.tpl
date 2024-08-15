@@ -23,4 +23,18 @@
 	<script src="app/core/styles/js/ckeditor/ckeditor.js"></script>
 	<script src="app/core/styles/js/plugin.js"></script>
 	<script src="app/core/styles/js/plugin.js"></script>
+
+	<style>
+		html body .pages .header {
+			background-color: #337ab7;
+			color: white;
+		}
+		html body .pages .header .nav .menu {
+			color: white;
+		}
+
+		html body .pages .header .nav .menu:hover {
+			background-color: #29689d;
+		}
+	</style>
 </head>

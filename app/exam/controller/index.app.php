@@ -181,8 +181,16 @@ class action extends app
 		$page = $page > 1?$page:1;
 		$subjects = $this->basic->getSubjectList();
 		$args = array();
-		if($search['keyword'])$args[] = array("AND","basic LIKE :basic",'basic',"%{$search['keyword']}%");
-		$basics = $this->basic->getBasicList($args,$page,15);
+		if($search['keyword'])$args[] = array("AND","name LIKE :name",'name',"%{$search['keyword']}%");
+
+		$where1 = $args;
+		$where1[] = ['AND', 'type = :type', 'type', 1];
+		$tournaments1 = $this->basic->getTournamentList($where1, $page, 15);
+
+		$where2 = $args;
+		$where2[] = ['AND', 'type = :type', 'type', 2];
+		$tournaments2 = $this->basic->getTournamentList($where2, $page, 15);
+
 		$areas = $this->area->getAreaList();
 		$args = array();
 		$args[] = array("AND","basicclosed = 0");
@@ -191,7 +199,8 @@ class action extends app
 		$this->tpl->assign('search',$search);
 		$this->tpl->assign('areas',$areas);
 		$this->tpl->assign('subjects',$subjects);
-		$this->tpl->assign('basics',$basics);
+		$this->tpl->assign('tournaments1',$tournaments1);
+		$this->tpl->assign('tournaments2',$tournaments2);
 		$this->tpl->display('index');
 	}
 }

@@ -138,6 +138,13 @@
 						{x2;endtree}
 					</div>
 					<div id="normaltype" class="hide">
+						<div class="form-group">
+							<label class="control-label col-sm-2"></label>
+							<div class="col-sm-9">
+								<p class="tips">注意：如果易、中、难三个选项的题目数量都设置为0的话，将会导致在考试模式下的题目数量为空的情况！</p>
+							</div>
+						</div>
+
 						{x2;tree:$questypes,questype,qid}
 						<div class="form-group questpanel panel_{x2;v:questype['questid']}">
 							<label class="control-label col-sm-2" for="content">{x2;v:questype['questype']}：</label>

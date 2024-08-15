@@ -9,6 +9,21 @@ html {
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
+
+html body .pages .content {
+  min-height: calc(100vh - 260px);
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.d-inline-block {
+  display: inline-block !important;
+}
+
 body {
   margin: 0;
 }

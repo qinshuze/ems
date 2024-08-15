@@ -13,8 +13,20 @@
 	<script src="files/public/js/jquery-ui.min.js"></script>
 	<script src="files/public/js/bootstrap.min.js"></script>
 	<script src="files/public/js/bootstrap-datetimepicker.js"></script>
+<script src="files/public/js/bootstrap-datetimepicker-zh-patch.js"></script>
 	<script src="files/public/js/all.fine-uploader.min.js"></script>
 	<script src="files/public/js/ckeditor/ckeditor.js"></script>
 	<script src="files/public/js/pe.master.js"></script>
 	<script src="files/public/js/echarts/echarts.js"></script>
+
+	<style>
+		.tips {
+			margin: 0;
+			padding: 10px;
+			background: #e5f2fe;
+			border-radius: 5px;
+			color: #345c7e;
+			font-weight: 500;
+		}
+	</style>
 </head>

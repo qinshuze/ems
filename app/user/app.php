@@ -8,7 +8,6 @@ class app
 
 	public function __construct()
 	{
-		
 		$this->ev = \PHPEMS\ginkgo::make('ev');
 		$this->session = \PHPEMS\ginkgo::make('session');
 		$this->_user = $this->session->getSessionUser();		

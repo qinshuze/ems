@@ -12,8 +12,23 @@
 	<script src="files/public/js/swiper.min.js"></script>
 	<script src="files/public/js/bootstrap.min.js"></script>
 	<script src="files/public/js/bootstrap-datetimepicker.js"></script>
+<script src="files/public/js/bootstrap-datetimepicker-zh-patch.js"></script>
 	<script src="files/public/js/all.fine-uploader.min.js"></script>
 	<script src="files/public/js/ckeditor/ckeditor.js"></script>
 	<script src="files/public/js/clappr/clappr.js"></script>
 	<script src="files/public/js/pe.app.js"></script>
+
+	<style>
+		html body .pages .header {
+			background-color: #337ab7;
+			color: white;
+		}
+		html body .pages .header .nav .menu {
+			color: white;
+		}
+
+		html body .pages .header .nav .menu:hover {
+			background-color: #29689d;
+		}
+	</style>
 </head>
