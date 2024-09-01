@@ -1,4 +1,9 @@
 {x2;include:header}
+<style>
+	img {
+		object-fit: cover;
+	}
+</style>
 <body>
 <div class="container-fluid">
 	<div class="row-fluid">
@@ -19,7 +24,7 @@
 							<li class="border morepadding">
 								<div class="intro">
 									<div class="col-xs-3 img">
-										<img src="{x2;if:$_user['userphoto']}{x2;$_user['userphoto']}{x2;else}app/exam/styles/image/paper.png{x2;endif}" />
+										<img style="height: 150px" src="{x2;if:$_user['userphoto']}{x2;$_user['userphoto']}{x2;else}app/exam/styles/image/paper.png{x2;endif}" />
 									</div>
 									<div class="desc col-xs-9">
 										<table width="100%">

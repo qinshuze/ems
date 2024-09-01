@@ -1,4 +1,10 @@
 {x2;include:header}
+<style>
+	.btn.btn-default.qindex.btn-primary {
+		background-color: coral;
+		border-color: #f56733;
+	}
+</style>
 <body>
 <div class="container-fluid">
 	<div class="row-fluid">
@@ -239,6 +245,24 @@
 		</div>
 	</div>
 </div>
+<button style="display: none" hidden="hidden" id="launch-modal1" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal1">
+	Launch modal
+</button>
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">警告</h4>
+			</div>
+			<div class="modal-body">
+				本次考试需要在全屏状态下进行
+			</div>
+			<div class="modal-footer">
+				<button id="fullscreenBtn1" onclick="openModal()" type="button" data-dismiss="modal" class="btn btn-primary">确认</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 $(function(){	
 	var clock = null;
@@ -292,10 +316,14 @@ document.getElementById('fullscreenBtn').addEventListener('click', function() {
 
 document.addEventListener('fullscreenchange', function() {
 	if (!document.fullscreenElement) {
-		alert('本次考试需要在全屏状态下进行');
-		document.getElementById('launch-modal').click()
+		// alert('本次考试需要在全屏状态下进行');
+		document.getElementById('launch-modal1').click()
 	}
 });
+
+function openModal() {
+	document.getElementById('launch-modal').click()
+}
 
 document.getElementById('launch-modal').click()
 </script>

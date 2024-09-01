@@ -1,4 +1,9 @@
 {x2;include:header}
+<style>
+	img {
+		object-fit: cover;
+	}
+</style>
 <body>
 <div class="container-fluid">
 	<div class="row-fluid">
@@ -20,7 +25,7 @@
 							<li class="col-xs-4 box">
 								<a href="index.php?exam-app-index-setCurrentBasic&basicid={x2;v:basic['basicid']}" class="ajax">
 									<div class="img">
-										<img src="{x2;if:v:basic['basicthumb']}{x2;v:basic['basicthumb']}{x2;else}app/core/styles/img/item.jpg{x2;endif}" />
+										<img height="200" src="{x2;if:v:basic['basicthumb']}{x2;v:basic['basicthumb']}{x2;else}app/core/styles/img/item.jpg{x2;endif}" />
 									</div>
 									<h5 class="box-title">{x2;v:basic['basic']}</h5>
 									<div class="intro">

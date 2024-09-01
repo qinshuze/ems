@@ -40,7 +40,7 @@
 									<div class="img">
 										<img height="200" src="{x2;if:v:tournament['thumb']}{x2;v:tournament['thumb']}{x2;else}app/core/styles/img/item.jpg{x2;endif}" />
 									</div>
-									<h5 class="box-title">{x2;v:tournament['name']}</h5>
+									<h5 title="{x2;v:tournament['name']}" style="width: 100%" class="box-title d-inline-block text-truncate">{x2;v:tournament['name']}</h5>
 									<!--<div class="intro">
 										<p>{x2;substring:v:tournament['content'],78}</p>
 									</div>-->
@@ -69,7 +69,7 @@
 									<div class="img">
 										<img height="200" src="{x2;if:v:tournament['thumb']}{x2;v:tournament['thumb']}{x2;else}app/core/styles/img/item.jpg{x2;endif}" />
 									</div>
-									<h5 class="box-title">{x2;v:tournament['name']}</h5>
+									<h5 title="{x2;v:tournament['name']}" style="width: 100%" class="box-title d-inline-block text-truncate">{x2;v:tournament['name']}</h5>
 									<!--<div class="intro">
 										<p>{x2;substring:v:tournament['content'],78}</p>
 									</div>-->

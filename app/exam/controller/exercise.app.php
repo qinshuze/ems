@@ -255,9 +255,19 @@ class action extends app
 			{
 				$questypes[$key] = $questype[$key];
 			}
+
+			$newKnows = [];
+			foreach ($this->data['currentbasic']['basicknows'] as $knowIds) {
+				foreach ($knowIds as $knowId) {
+					if (isset($knows[$knowId])) {
+						$newKnows[$knowId] = $knows[$knowId];
+					}
+				}
+			}
+
 			$this->tpl->assign('basicnow',$this->data['currentbasic']);
 			$this->tpl->assign('sections',$sections);
-			$this->tpl->assign('knows',$knows);
+			$this->tpl->assign('knows',$newKnows);
 			$this->tpl->assign('questype',$questypes);
 			$this->tpl->display('exercise');
 		}
